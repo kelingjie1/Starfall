@@ -19,6 +19,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0742D64A22410E3000324C01 /* GLObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLObject.h; path = ../../Library/ObjectiveGL/Source/GLObject.h; sourceTree = "<group>"; };
+		0742D64B22410E3000324C01 /* GLFrameBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLFrameBuffer.h; path = ../../Library/ObjectiveGL/Source/GLFrameBuffer.h; sourceTree = "<group>"; };
+		0742D64C22410E3000324C01 /* GLBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLBuffer.h; path = ../../Library/ObjectiveGL/Source/GLBuffer.h; sourceTree = "<group>"; };
+		0742D64D22410E3000324C01 /* GLProgram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLProgram.h; path = ../../Library/ObjectiveGL/Source/GLProgram.h; sourceTree = "<group>"; };
+		0742D64E22410E3000324C01 /* GLRenderBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLRenderBuffer.h; path = ../../Library/ObjectiveGL/Source/GLRenderBuffer.h; sourceTree = "<group>"; };
+		0742D64F22410E3000324C01 /* GLTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLTexture.h; path = ../../Library/ObjectiveGL/Source/GLTexture.h; sourceTree = "<group>"; };
+		0742D65022410E3000324C01 /* GLContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLContext.h; path = ../../Library/ObjectiveGL/Source/GLContext.h; sourceTree = "<group>"; };
+		0742D65122410E3000324C01 /* GLVertexArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLVertexArray.h; path = ../../Library/ObjectiveGL/Source/GLVertexArray.h; sourceTree = "<group>"; };
 		074D4B3C2240EDAA00EB9304 /* libStarfall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStarfall.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		074D4B4B2240EE8D00EB9304 /* SFParticleSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFParticleSystem.h; sourceTree = "<group>"; };
 		074D4B4C2240EE8D00EB9304 /* SFParticleSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SFParticleSystem.cpp; sourceTree = "<group>"; };
@@ -35,10 +43,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0742D64122410DDD00324C01 /* ObjectiveGL */ = {
+			isa = PBXGroup;
+			children = (
+				0742D64C22410E3000324C01 /* GLBuffer.h */,
+				0742D65022410E3000324C01 /* GLContext.h */,
+				0742D64B22410E3000324C01 /* GLFrameBuffer.h */,
+				0742D64A22410E3000324C01 /* GLObject.h */,
+				0742D64D22410E3000324C01 /* GLProgram.h */,
+				0742D64E22410E3000324C01 /* GLRenderBuffer.h */,
+				0742D64F22410E3000324C01 /* GLTexture.h */,
+				0742D65122410E3000324C01 /* GLVertexArray.h */,
+			);
+			name = ObjectiveGL;
+			sourceTree = "<group>";
+		};
 		074D4AD52240E93D00EB9304 = {
 			isa = PBXGroup;
 			children = (
 				074D4B4A2240EE8D00EB9304 /* Source */,
+				0742D64122410DDD00324C01 /* ObjectiveGL */,
 				074D4AE02240E93D00EB9304 /* Products */,
 			);
 			sourceTree = "<group>";
