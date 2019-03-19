@@ -13,7 +13,40 @@
 		074D4B002240E95700EB9304 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 074D4AFF2240E95700EB9304 /* Assets.xcassets */; };
 		074D4B032240E95700EB9304 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 074D4B012240E95700EB9304 /* LaunchScreen.storyboard */; };
 		074D4B062240E95700EB9304 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 074D4B052240E95700EB9304 /* main.m */; };
+		074D4B162240EC3F00EB9304 /* Starfall.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 074D4B112240EC1D00EB9304 /* Starfall.framework */; };
+		074D4B172240EC3F00EB9304 /* Starfall.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 074D4B112240EC1D00EB9304 /* Starfall.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		074D4B102240EC1D00EB9304 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 074D4B0C2240EC1D00EB9304 /* Starfall.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 074D4ADF2240E93D00EB9304;
+			remoteInfo = Starfall;
+		};
+		074D4B482240EE4100EB9304 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 074D4B0C2240EC1D00EB9304 /* Starfall.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 074D4B3B2240EDAA00EB9304;
+			remoteInfo = Starfall;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		074D4B1A2240EC3F00EB9304 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				074D4B172240EC3F00EB9304 /* Starfall.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		074D4AF32240E95700EB9304 /* StarfallExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarfallExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -26,6 +59,7 @@
 		074D4B022240E95700EB9304 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		074D4B042240E95700EB9304 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		074D4B052240E95700EB9304 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		074D4B0C2240EC1D00EB9304 /* Starfall.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Starfall.xcodeproj; path = ../../../Project/iOS/Starfall.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,6 +67,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				074D4B162240EC3F00EB9304 /* Starfall.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,6 +79,7 @@
 			children = (
 				074D4AF52240E95700EB9304 /* StarfallExample */,
 				074D4AF42240E95700EB9304 /* Products */,
+				074D4B142240EC3100EB9304 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +94,7 @@
 		074D4AF52240E95700EB9304 /* StarfallExample */ = {
 			isa = PBXGroup;
 			children = (
+				074D4B0C2240EC1D00EB9304 /* Starfall.xcodeproj */,
 				074D4AF62240E95700EB9304 /* AppDelegate.h */,
 				074D4AF72240E95700EB9304 /* AppDelegate.m */,
 				074D4AF92240E95700EB9304 /* ViewController.h */,
@@ -71,6 +108,21 @@
 			path = StarfallExample;
 			sourceTree = "<group>";
 		};
+		074D4B0D2240EC1D00EB9304 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				074D4B112240EC1D00EB9304 /* Starfall.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		074D4B142240EC3100EB9304 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -81,10 +133,12 @@
 				074D4AEF2240E95700EB9304 /* Sources */,
 				074D4AF02240E95700EB9304 /* Frameworks */,
 				074D4AF12240E95700EB9304 /* Resources */,
+				074D4B1A2240EC3F00EB9304 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				074D4B492240EE4100EB9304 /* PBXTargetDependency */,
 			);
 			name = StarfallExample;
 			productName = StarfallExample;
@@ -116,12 +170,28 @@
 			mainGroup = 074D4AEA2240E95700EB9304;
 			productRefGroup = 074D4AF42240E95700EB9304 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 074D4B0D2240EC1D00EB9304 /* Products */;
+					ProjectRef = 074D4B0C2240EC1D00EB9304 /* Starfall.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				074D4AF22240E95700EB9304 /* StarfallExample */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		074D4B112240EC1D00EB9304 /* Starfall.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Starfall.framework;
+			remoteRef = 074D4B102240EC1D00EB9304 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		074D4AF12240E95700EB9304 /* Resources */ = {
@@ -148,6 +218,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		074D4B492240EE4100EB9304 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Starfall;
+			targetProxy = 074D4B482240EE4100EB9304 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		074D4AFC2240E95700EB9304 /* Main.storyboard */ = {
