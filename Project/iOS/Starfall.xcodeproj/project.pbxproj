@@ -6,6 +6,10 @@
 	objectVersion = 50;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		0742D6532241EBBB00324C01 /* SFParticleSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 074D4B4C2240EE8D00EB9304 /* SFParticleSystem.cpp */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXCopyFilesBuildPhase section */
 		074D4B3A2240EDAA00EB9304 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -27,6 +31,10 @@
 		0742D64F22410E3000324C01 /* GLTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLTexture.h; path = ../../Library/ObjectiveGL/Source/GLTexture.h; sourceTree = "<group>"; };
 		0742D65022410E3000324C01 /* GLContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLContext.h; path = ../../Library/ObjectiveGL/Source/GLContext.h; sourceTree = "<group>"; };
 		0742D65122410E3000324C01 /* GLVertexArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLVertexArray.h; path = ../../Library/ObjectiveGL/Source/GLVertexArray.h; sourceTree = "<group>"; };
+		0742D6572241F40F00324C01 /* GLPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLPlatform.h; path = ../../Library/ObjectiveGL/Source/GLPlatform.h; sourceTree = "<group>"; };
+		0742D6582241F40F00324C01 /* GLError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLError.h; path = ../../Library/ObjectiveGL/Source/GLError.h; sourceTree = "<group>"; };
+		0742D6592241F41000324C01 /* ObjectiveGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ObjectiveGL.h; path = ../../Library/ObjectiveGL/Source/ObjectiveGL.h; sourceTree = "<group>"; };
+		0742D65A2241F5A900324C01 /* GLUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLUtil.h; path = ../../Library/ObjectiveGL/Source/GLUtil.h; sourceTree = "<group>"; };
 		074D4B3C2240EDAA00EB9304 /* libStarfall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStarfall.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		074D4B4B2240EE8D00EB9304 /* SFParticleSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFParticleSystem.h; sourceTree = "<group>"; };
 		074D4B4C2240EE8D00EB9304 /* SFParticleSystem.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SFParticleSystem.cpp; sourceTree = "<group>"; };
@@ -46,14 +54,18 @@
 		0742D64122410DDD00324C01 /* ObjectiveGL */ = {
 			isa = PBXGroup;
 			children = (
-				0742D64C22410E3000324C01 /* GLBuffer.h */,
 				0742D65022410E3000324C01 /* GLContext.h */,
-				0742D64B22410E3000324C01 /* GLFrameBuffer.h */,
 				0742D64A22410E3000324C01 /* GLObject.h */,
+				0742D64C22410E3000324C01 /* GLBuffer.h */,
+				0742D64B22410E3000324C01 /* GLFrameBuffer.h */,
 				0742D64D22410E3000324C01 /* GLProgram.h */,
 				0742D64E22410E3000324C01 /* GLRenderBuffer.h */,
 				0742D64F22410E3000324C01 /* GLTexture.h */,
 				0742D65122410E3000324C01 /* GLVertexArray.h */,
+				0742D6582241F40F00324C01 /* GLError.h */,
+				0742D6572241F40F00324C01 /* GLPlatform.h */,
+				0742D65A2241F5A900324C01 /* GLUtil.h */,
+				0742D6592241F41000324C01 /* ObjectiveGL.h */,
 			);
 			name = ObjectiveGL;
 			sourceTree = "<group>";
@@ -141,6 +153,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0742D6532241EBBB00324C01 /* SFParticleSystem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,6 +283,11 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZSGBMMMZ4T;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"IOS=1",
+					"DEBUG=1",
+					GLES_SILENCE_DEPRECATION,
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -282,6 +300,10 @@
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = ZSGBMMMZ4T;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"IOS=1",
+					GLES_SILENCE_DEPRECATION,
+				);
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

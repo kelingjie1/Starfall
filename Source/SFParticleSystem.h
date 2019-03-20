@@ -6,6 +6,14 @@
 //  Copyright © 2019 Starfall. All rights reserved.
 //
 
-class SFParticleSystem {
-    
-};
+#pragma once
+
+#include <string>
+namespace Starfall {
+    using namespace std;
+    class SFParticleSystem {
+    public:
+        void load(string path);
+    };
+}
+
