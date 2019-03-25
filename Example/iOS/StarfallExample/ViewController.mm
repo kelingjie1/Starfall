@@ -51,6 +51,8 @@ using namespace Starfall;
     }
     
     framebuffer->clear(1, 0, 0, 1);
+    //particleSystem->update(0);
+    particleSystem->render(framebuffer);
     
 }
 

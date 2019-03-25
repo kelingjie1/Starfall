@@ -86,5 +86,5 @@ void SFParticleSystem::update(double deltaTime)
 
 void SFParticleSystem::render(shared_ptr<GLFrameBuffer> framebuffer)
 {
-    framebuffer->draw(renderProgram, vao);
+    framebuffer->draw(renderProgram, vao, 1);
 }

@@ -64,8 +64,10 @@ namespace Starfall {
      
      void main()
      {
-         gl_Position = vpMatrix*vec4(position.x, position.y, position.z, 1.0);
-         gl_PointSize = screenSize.x/gl_Position.w*size*1.414;
+         gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+         gl_PointSize = 1000.0;
+         //gl_Position = vpMatrix*vec4(position.x, position.y, position.z, 1.0);
+         //gl_PointSize = screenSize.x/gl_Position.w*size*1.414;
          
          fs_textureIndex = textureIndex;
          fs_color = color;
@@ -98,8 +100,8 @@ namespace Starfall {
              discard;
          }
          vec4 texColor = vec4(1.0,1.0,1.0,1.0);
-         texColor = texture(textures[0], vec2((fs_rect.x+pos.x)*fs_rect.z,
-                                              (fs_rect.y+pos.y)*fs_rect.w));
+         texColor = texture(textures[0], vec2(fs_rect.x+pos.x*fs_rect.z,
+                                              1.0-(fs_rect.y+pos.y*fs_rect.w)));
          texColor = vec4(texColor.r * fs_color.r * fs_color.a,
                          texColor.g * fs_color.g * fs_color.a,
                          texColor.b * fs_color.b * fs_color.a,
