@@ -16,6 +16,7 @@
 		074D4B062240E95700EB9304 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 074D4B052240E95700EB9304 /* main.m */; };
 		074D4B162240EC3F00EB9304 /* libStarfall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 074D4B112240EC1D00EB9304 /* libStarfall.a */; };
 		074D4B172240EC3F00EB9304 /* libStarfall.a in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 074D4B112240EC1D00EB9304 /* libStarfall.a */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		07C82DCF22488C7300111FF0 /* Resource in Resources */ = {isa = PBXBuildFile; fileRef = 07C82DCE22488C7200111FF0 /* Resource */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,6 +63,7 @@
 		074D4B042240E95700EB9304 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		074D4B052240E95700EB9304 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		074D4B0C2240EC1D00EB9304 /* Starfall.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Starfall.xcodeproj; path = ../../../Project/iOS/Starfall.xcodeproj; sourceTree = "<group>"; };
+		07C82DCE22488C7200111FF0 /* Resource */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resource; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 		074D4AEA2240E95700EB9304 = {
 			isa = PBXGroup;
 			children = (
+				07C82DCE22488C7200111FF0 /* Resource */,
 				074D4AF52240E95700EB9304 /* StarfallExample */,
 				074D4AF42240E95700EB9304 /* Products */,
 				074D4B142240EC3100EB9304 /* Frameworks */,
@@ -202,6 +205,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07C82DCF22488C7300111FF0 /* Resource in Resources */,
 				074D4B032240E95700EB9304 /* LaunchScreen.storyboard in Resources */,
 				074D4B002240E95700EB9304 /* Assets.xcassets in Resources */,
 				074D4AFE2240E95700EB9304 /* Main.storyboard in Resources */,

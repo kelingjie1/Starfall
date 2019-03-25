@@ -26,6 +26,7 @@ using namespace Starfall;
 - (void)viewDidLoad {
     [super viewDidLoad];
     context = GLContext::create();
+    context->setCurrent();
     EAGLContext *eaglcontext = (__bridge EAGLContext*)context->context;
     ((GLKView*)self.view).context = eaglcontext;
     ((GLKView*)self.view).drawableColorFormat = GLKViewDrawableColorFormatRGBA8888;
@@ -33,6 +34,12 @@ using namespace Starfall;
     config.maxParticleCount = 10000;
     particleSystem = make_shared<SFParticleSystem>();
     particleSystem->setup(config);
+    NSString *respath = [NSBundle.mainBundle.resourcePath stringByAppendingPathComponent:@"Resource"];
+    NSString *path = [respath stringByAppendingPathComponent:@"star.png"];
+    
+    auto texture = GLPlatform::createTextureFromFile([path cStringUsingEncoding:NSUTF8StringEncoding]);
+    
+    particleSystem->addParticle("", texture);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {

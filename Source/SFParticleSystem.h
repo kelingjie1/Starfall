@@ -26,6 +26,7 @@ namespace Starfall {
     {
     protected:
         SFParticleConfig config;
+        shared_ptr<GLVertexBuffer<SFParticleObject>> tbo;
         shared_ptr<GLVertexBuffer<SFParticleNode>> vbo;
         shared_ptr<GLElementBuffer<GLuint>> ebo;
         shared_ptr<GLVertexArray<SFParticleNode, GLuint>> vao;
@@ -36,11 +37,12 @@ namespace Starfall {
         vector<pair<string,shared_ptr<GLTexture>>> particleTemplates;
         
     public:
+        SFParticleNode *getNextUnusedNode();
         void setup(SFParticleConfig config);
         void addParticle(string particleDescription,shared_ptr<GLTexture> texture);
         void addEmiter(shared_ptr<SFParticleEmitter> emitter);
         void update(double deltaTime);
-        void render();
+        void render(shared_ptr<GLFrameBuffer> framebuffer);
     };
 }
 

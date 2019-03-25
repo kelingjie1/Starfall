@@ -9,6 +9,9 @@
 #include "SFParticleSystem.h"
 #include "ObjectiveGL.h"
 #include "SFParticleNode.h"
+#include "SFParticleShader.h"
+
+#define TEST
 
 using namespace Starfall;
 
@@ -16,10 +19,32 @@ void SFParticleSystem::setup(SFParticleConfig config)
 {
     this->config = config;
     auto context = GLContext::current();
+    
+    tbo = GLVertexBuffer<SFParticleObject>::create();
+    tbo->alloc(config.maxParticleCount);
+    tbo->accessData([=](SFParticleObject *objects){
+        memset(objects, 0, tbo->size);
+        for (int i=0; i<tbo->count; i++) {
+            objects[i].index = i;
+        }
+    });
+    
     vbo = GLVertexBuffer<SFParticleNode>::create();
     vbo->alloc(config.maxParticleCount);
     vbo->accessData([=](SFParticleNode *nodes){
         memset(nodes, 0, vbo->size);
+#ifdef TEST
+        nodes[0].color[0] = 1;
+        nodes[0].color[1] = 1;
+        nodes[0].color[2] = 1;
+        nodes[0].color[3] = 1;
+        
+        nodes[0].rect[2] = 100.0/1024.0;
+        nodes[0].rect[3] = 100.0/1024.0;
+        
+        nodes[0].size = 100;
+#endif
+        
     });
     
     ebo = GLElementBuffer<GLuint>::create();
@@ -34,6 +59,10 @@ void SFParticleSystem::setup(SFParticleConfig config)
     vao->setDrawMode(GL_POINTS);
     
     vao->setParams(SFParticleNode::getLayout());
+    
+    
+    renderProgram = GLProgram::create();
+    renderProgram->setShaderString(ParticleVertexShader, ParticleFragmentShader);
 }
 
 void SFParticleSystem::addParticle(string particleDescription,shared_ptr<GLTexture> texture) {
@@ -55,7 +84,7 @@ void SFParticleSystem::update(double deltaTime)
     
 }
 
-void SFParticleSystem::render()
+void SFParticleSystem::render(shared_ptr<GLFrameBuffer> framebuffer)
 {
-    
+    framebuffer->draw(renderProgram, vao);
 }
