@@ -1,3 +1,6 @@
-
-position.x = sin(t)*100.0;
-position.y = cos(t)*100.0;
+position = vec3(0.0);
+float size = 1000.0;
+color = vec4(1.0,1.0,1.0,1.0);
+textureIndex = 1.0;
+rotation = 0.0;
+rect = vec4(0.0,0.0,100.0/1024.0,100.0/1024.0);

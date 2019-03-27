@@ -10,6 +10,7 @@
 #include "ObjectiveGL.h"
 #include "SFParticleNode.h"
 #include "SFParticleShader.h"
+#include <sstream>
 
 #define TEST
 
@@ -20,18 +21,20 @@ void SFParticleSystem::setup(SFParticleConfig config)
     this->config = config;
     auto context = GLContext::current();
     
-    tbo = GLVertexBuffer<SFParticleObject>::create();
-    tbo->alloc(config.maxParticleCount);
-    tbo->accessData([=](SFParticleObject *objects){
+    tbo = GLBuffer::create(GL_TRANSFORM_FEEDBACK_BUFFER);
+    tbo->alloc(sizeof(SFParticleObject),config.maxParticleCount);
+    tbo->accessData([=](void *pointer){
+        auto objects = static_cast<SFParticleObject*>(pointer);
         memset(objects, 0, tbo->size);
         for (int i=0; i<tbo->count; i++) {
             objects[i].index = i;
         }
     });
     
-    vbo = GLVertexBuffer<SFParticleNode>::create();
-    vbo->alloc(config.maxParticleCount);
-    vbo->accessData([=](SFParticleNode *nodes){
+    vbo = GLBuffer::create(GL_ARRAY_BUFFER);
+    vbo->alloc(sizeof(SFParticleNode),config.maxParticleCount);
+    vbo->accessData([=](void *pointer){
+        auto nodes = static_cast<SFParticleNode*>(pointer);
         memset(nodes, 0, vbo->size);
 #ifdef TEST
         nodes[0].color[0] = 1;
@@ -47,26 +50,29 @@ void SFParticleSystem::setup(SFParticleConfig config)
         
     });
     
-    ebo = GLElementBuffer<GLuint>::create();
-    ebo->alloc(config.maxParticleCount);
-    ebo->accessData([=](GLuint *indexs){
+    ebo = GLBuffer::create(GL_ELEMENT_ARRAY_BUFFER);
+    ebo->alloc(sizeof(GLuint),config.maxParticleCount);
+    ebo->accessData([=](void *pointer){
+        auto indexs = static_cast<GLuint*>(pointer);
         memset(indexs, 0, ebo->size);
     });
     
-    vao = GLVertexArray<SFParticleNode,GLuint>::create();
-    vao->setVertexBuffer(vbo);
-    //vao->setElementBuffer(ebo);
+    vao = GLVertexArray::create();
+    vao->setBuffer(vbo);
+    //vao->setBuffer(ebo);
+    vao->setElementBufferType(GL_UNSIGNED_INT);
     vao->setDrawMode(GL_POINTS);
     
     vao->setParams(SFParticleNode::getLayout());
     
     
     renderProgram = GLProgram::create();
-    renderProgram->setShaderString(ParticleVertexShader, ParticleFragmentShader);
+    renderProgram->setRenderShader(ParticleVertexShader, ParticleFragmentShader);
 }
 
 void SFParticleSystem::addParticle(string particleDescription,shared_ptr<GLTexture> texture) {
     particleTemplates.push_back(make_pair(particleDescription, texture));
+    
 }
 void SFParticleSystem::addEmiter(shared_ptr<SFParticleEmitter> emitter) {
     emitters.push_back(emitter);
@@ -74,8 +80,21 @@ void SFParticleSystem::addEmiter(shared_ptr<SFParticleEmitter> emitter) {
 
 void SFParticleSystem::update(double deltaTime)
 {
-    auto nodes = vbo->lock();
-    auto indexs = ebo->lock();
+    if (!computeProgram) {
+        stringstream ss;
+        for (int i=0;i<particleTemplates.size();i++) {
+            ss << "else if (tmp == "<<i<<")"<<"{"<<particleTemplates[i].first<<"}"<<endl;
+        }
+        
+        computeVertexShader = ParticleComputeShader;
+        auto it = computeVertexShader.find("@");
+        computeVertexShader.replace(it, 1, ss.str());
+        computeProgram = GLProgram::create();
+        computeProgram->setTransformFeedbackShader(computeVertexShader,
+        {"type","position","size","color","textureIndex","rotation","rect"});
+    }
+    auto nodes = static_cast<SFParticleNode*>(vbo->lock());
+    auto indexs = static_cast<GLuint*>(ebo->lock());
     for(auto &emiter:emitters) {
         emiter->update(this, nodes, indexs,config.maxParticleCount);
     }
@@ -86,5 +105,5 @@ void SFParticleSystem::update(double deltaTime)
 
 void SFParticleSystem::render(shared_ptr<GLFrameBuffer> framebuffer)
 {
-    framebuffer->draw(renderProgram, vao, 1);
+    framebuffer->draw(renderProgram, vao);
 }

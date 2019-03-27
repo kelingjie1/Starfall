@@ -16,29 +16,31 @@ namespace Starfall {
     const string ParticleComputeShader = string("#version 300 es\n")+
     SHADER_STRING
     (
-     
      layout(location = 0) in int index;
-     layout(location = 1) in int type;
+     layout(location = 1) in int tmp;
      layout(location = 2) in float time;
-     layout(location = 3) in vec4 rand;
-     layout(location = 4) in vec2 frameSize;
-     layout(location = 5) in float frameInfex;
+     layout(location = 3) in float life;
+     layout(location = 4) in vec4 rand;
+     layout(location = 5) in vec2 frameSize;
+     layout(location = 6) in float frameIndex;
      
-     out int type;//0:死亡/1:初始化/2:活着
-     out float position[3];
+     
+     out float type;
+     out vec3 position;
      out float size;
-     out float color[4];
+     out vec4 color;
      out float textureIndex;
      out float rotation;
-     out float rect[4];
+     out vec4 rect;
      
      void main()
      {
-         if (type==0) {
-             position = vec3(0.0);
-             size = 0.0;
+         type = 1.0;
+         if (time>=life) {
+             type = 0.0;
+             return;
          }
-         [compute]
+         @
      }
      );
     
@@ -64,6 +66,12 @@ namespace Starfall {
      
      void main()
      {
+         if (size == 0.0) {
+             gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
+             gl_PointSize = 0.0;
+             fs_textureIndex = -1.0;
+             return;
+         }
          gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
          gl_PointSize = 1000.0;
          //gl_Position = vpMatrix*vec4(position.x, position.y, position.z, 1.0);
@@ -91,6 +99,10 @@ namespace Starfall {
      in vec4 fs_rect;
      void main()
      {
+         if (fs_textureIndex < 0.0) {
+             discard;
+             return;
+         }
          float r = radian + fs_rotation;
          vec2 pos = vec2(gl_PointCoord.x-0.5,0.5-gl_PointCoord.y);
          pos = vec2((cos(r)*pos.x+sin(r)*pos.y)*1.414+0.5,

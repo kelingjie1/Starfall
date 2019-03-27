@@ -17,7 +17,7 @@ namespace Starfall
     class SFParticleObject {
     public:
         GLint index;
-        GLint type;//0:死亡/1:初始化/2:活着
+        GLint tmp;
         GLfloat time;
         GLfloat life;
         GLfloat rand[4];

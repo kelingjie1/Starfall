@@ -49,9 +49,8 @@ using namespace Starfall;
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fb);
         framebuffer = GLFrameBuffer::create(fb);
     }
-    
     framebuffer->clear(1, 0, 0, 1);
-    //particleSystem->update(0);
+    particleSystem->update(0);
     particleSystem->render(framebuffer);
     
 }
