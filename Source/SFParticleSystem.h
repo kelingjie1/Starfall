@@ -26,10 +26,11 @@ namespace Starfall {
     {
     protected:
         SFParticleConfig config;
-        shared_ptr<GLBuffer> tbo;
         shared_ptr<GLBuffer> vbo;
+        shared_ptr<GLBuffer> tbo;
         shared_ptr<GLBuffer> ebo;
-        shared_ptr<GLVertexArray> vao;
+        shared_ptr<GLVertexArray> computeVAO;
+        shared_ptr<GLVertexArray> renderVAO;
         shared_ptr<GLProgram> computeProgram;
         shared_ptr<GLProgram> renderProgram;
         string computeVertexShader;

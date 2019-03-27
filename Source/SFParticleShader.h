@@ -16,8 +16,8 @@ namespace Starfall {
     const string ParticleComputeShader = string("#version 300 es\n")+
     SHADER_STRING
     (
-     layout(location = 0) in int index;
-     layout(location = 1) in int tmp;
+     layout(location = 0) in float index;
+     layout(location = 1) in float tmp;
      layout(location = 2) in float time;
      layout(location = 3) in float life;
      layout(location = 4) in vec4 rand;
@@ -35,7 +35,21 @@ namespace Starfall {
      
      void main()
      {
+//         type = 1.0;
+//         position = vec3(0.0);
+//         size = 0.0;
+//         color = vec4(1.0);
+//         textureIndex = 1.0;
+//         rotation = 0.0;
+//         rect = vec4(0.0);
+         
          type = 1.0;
+         position = vec3(0.0);
+         size = 100.0;
+         color = vec4(1.0);
+         textureIndex = 1.0;
+         rotation = 0.0;
+         rect = vec4(0.0,0.0,100.0/1024.0,100.0/1024.0);
          if (time>=life) {
              type = 0.0;
              return;
@@ -47,7 +61,7 @@ namespace Starfall {
     const string ParticleVertexShader = string("#version 300 es\n")+
     SHADER_STRING
     (
-     layout(location = 0) in int type;//0:死亡/1:初始化/2:活着
+     layout(location = 0) in float type;//0:死亡/1:初始化/2:活着
      layout(location = 1) in vec3 position;
      layout(location = 2) in float size;
      layout(location = 3) in vec4 color;

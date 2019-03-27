@@ -21,21 +21,25 @@ void SFParticleSystem::setup(SFParticleConfig config)
     this->config = config;
     auto context = GLContext::current();
     
-    tbo = GLBuffer::create(GL_TRANSFORM_FEEDBACK_BUFFER);
-    tbo->alloc(sizeof(SFParticleObject),config.maxParticleCount);
-    tbo->accessData([=](void *pointer){
+    vbo = GLBuffer::create();
+    vbo->alloc(sizeof(SFParticleObject),config.maxParticleCount);
+    vbo->accessData([=](void *pointer){
         auto objects = static_cast<SFParticleObject*>(pointer);
-        memset(objects, 0, tbo->size);
-        for (int i=0; i<tbo->count; i++) {
+        memset(objects, 0, vbo->size);
+        for (int i=0; i<vbo->count; i++) {
             objects[i].index = i;
+            for (int j=0; j<4; j++) {
+                objects[i].rand[j] = rand()%1000/1000.0;
+            }
+            
         }
     });
     
-    vbo = GLBuffer::create(GL_ARRAY_BUFFER);
-    vbo->alloc(sizeof(SFParticleNode),config.maxParticleCount);
-    vbo->accessData([=](void *pointer){
+    tbo = GLBuffer::create();
+    tbo->alloc(sizeof(SFParticleNode),config.maxParticleCount);
+    tbo->accessData([=](void *pointer){
         auto nodes = static_cast<SFParticleNode*>(pointer);
-        memset(nodes, 0, vbo->size);
+        memset(nodes, 0, tbo->size);
 #ifdef TEST
         nodes[0].color[0] = 1;
         nodes[0].color[1] = 1;
@@ -47,23 +51,30 @@ void SFParticleSystem::setup(SFParticleConfig config)
         
         nodes[0].size = 100;
 #endif
-        
+
     });
     
-    ebo = GLBuffer::create(GL_ELEMENT_ARRAY_BUFFER);
+    ebo = GLBuffer::create();
     ebo->alloc(sizeof(GLuint),config.maxParticleCount);
     ebo->accessData([=](void *pointer){
         auto indexs = static_cast<GLuint*>(pointer);
         memset(indexs, 0, ebo->size);
     });
     
-    vao = GLVertexArray::create();
-    vao->setBuffer(vbo);
-    //vao->setBuffer(ebo);
-    vao->setElementBufferType(GL_UNSIGNED_INT);
-    vao->setDrawMode(GL_POINTS);
+    computeVAO = GLVertexArray::create();
+    computeVAO->setBuffer(GL_ARRAY_BUFFER,vbo);
+    //vao->setBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
+    computeVAO->setBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, tbo);
+    computeVAO->setElementBufferType(GL_UNSIGNED_INT);
+    computeVAO->setDrawMode(GL_POINTS);
+    computeVAO->setParams(SFParticleNode::getLayout());
     
-    vao->setParams(SFParticleNode::getLayout());
+    renderVAO = GLVertexArray::create();
+    renderVAO->setBuffer(GL_ARRAY_BUFFER,tbo);
+    //vao->setBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
+    renderVAO->setElementBufferType(GL_UNSIGNED_INT);
+    renderVAO->setDrawMode(GL_POINTS);
+    renderVAO->setParams(SFParticleNode::getLayout());
     
     
     renderProgram = GLProgram::create();
@@ -83,7 +94,7 @@ void SFParticleSystem::update(double deltaTime)
     if (!computeProgram) {
         stringstream ss;
         for (int i=0;i<particleTemplates.size();i++) {
-            ss << "else if (tmp == "<<i<<")"<<"{"<<particleTemplates[i].first<<"}"<<endl;
+            ss << "else if (tmp == "<<i<<".0)"<<"{"<<particleTemplates[i].first<<"}"<<endl;
         }
         
         computeVertexShader = ParticleComputeShader;
@@ -93,17 +104,20 @@ void SFParticleSystem::update(double deltaTime)
         computeProgram->setTransformFeedbackShader(computeVertexShader,
         {"type","position","size","color","textureIndex","rotation","rect"});
     }
-    auto nodes = static_cast<SFParticleNode*>(vbo->lock());
-    auto indexs = static_cast<GLuint*>(ebo->lock());
-    for(auto &emiter:emitters) {
-        emiter->update(this, nodes, indexs,config.maxParticleCount);
-    }
-    ebo->unlock();
-    vbo->unlock();
+    
+    renderVAO->computeUsingTransformFeedback(computeProgram);
+    
+//    auto nodes = static_cast<SFParticleNode*>(tbo->lock());
+//    auto indexs = static_cast<GLuint*>(ebo->lock());
+//    for(auto &emiter:emitters) {
+//        emiter->update(this, nodes, indexs,config.maxParticleCount);
+//    }
+//    ebo->unlock();
+//    tbo->unlock();
     
 }
 
 void SFParticleSystem::render(shared_ptr<GLFrameBuffer> framebuffer)
 {
-    framebuffer->draw(renderProgram, vao);
+    framebuffer->draw(renderProgram, renderVAO);
 }
