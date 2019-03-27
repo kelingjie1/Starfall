@@ -41,10 +41,11 @@ using namespace Starfall;
     particleSystem->setup(config);
     NSString *respath = [NSBundle.mainBundle.resourcePath stringByAppendingPathComponent:@"Resource"];
     NSString *path = [respath stringByAppendingPathComponent:@"star.png"];
-    
+    NSString *compute = [respath stringByAppendingPathComponent:@"star.compute"];
+    NSString *str = [NSString stringWithContentsOfFile:compute encoding:NSUTF8StringEncoding error:nil];
     auto texture = GLPlatform::createTextureFromFile([path cStringUsingEncoding:NSUTF8StringEncoding]);
     
-    particleSystem->addParticle("", texture);
+    particleSystem->addParticle([str cStringUsingEncoding:NSUTF8StringEncoding], texture);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {
@@ -55,8 +56,13 @@ using namespace Starfall;
         framebuffer = GLFrameBuffer::create(fb);
     }
     framebuffer->clear(1, 0, 0, 1);
+    NSDate *t0 = [NSDate date];
     particleSystem->update(0);
+    NSDate *t1 = [NSDate date];
+    NSLog(@"update:%f",[t1 timeIntervalSinceDate:t0]);
     particleSystem->render(framebuffer);
+    NSDate *t2 = [NSDate date];
+    NSLog(@"render:%f",[t2 timeIntervalSinceDate:t1]);
     NSDate *newDate = [NSDate date];
     self.label.text = [NSString stringWithFormat:@"%f",[newDate timeIntervalSinceDate:date]];
     date = newDate;

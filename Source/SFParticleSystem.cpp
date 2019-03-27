@@ -33,6 +33,11 @@ void SFParticleSystem::setup(SFParticleConfig config)
             }
             
         }
+#ifdef TEST
+        objects[0].tmp = 1;
+        objects[0].time = 0;
+        objects[0].life = 10;
+#endif
     });
     
     tbo = GLBuffer::create();
@@ -45,10 +50,10 @@ void SFParticleSystem::setup(SFParticleConfig config)
         nodes[0].color[1] = 1;
         nodes[0].color[2] = 1;
         nodes[0].color[3] = 1;
-        
+
         nodes[0].rect[2] = 100.0/1024.0;
         nodes[0].rect[3] = 100.0/1024.0;
-        
+
         nodes[0].size = 100;
 #endif
 
@@ -67,7 +72,7 @@ void SFParticleSystem::setup(SFParticleConfig config)
     computeVAO->setBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, tbo);
     computeVAO->setElementBufferType(GL_UNSIGNED_INT);
     computeVAO->setDrawMode(GL_POINTS);
-    computeVAO->setParams(SFParticleNode::getLayout());
+    computeVAO->setParams(SFParticleObject::getLayout());
     
     renderVAO = GLVertexArray::create();
     renderVAO->setBuffer(GL_ARRAY_BUFFER,tbo);
@@ -94,7 +99,7 @@ void SFParticleSystem::update(double deltaTime)
     if (!computeProgram) {
         stringstream ss;
         for (int i=0;i<particleTemplates.size();i++) {
-            ss << "else if (tmp == "<<i<<".0)"<<"{"<<particleTemplates[i].first<<"}"<<endl;
+            ss << "else if (tmp == "<<i+1<<".0)"<<"{"<<particleTemplates[i].first<<"}"<<endl;
         }
         
         computeVertexShader = ParticleComputeShader;
@@ -105,7 +110,15 @@ void SFParticleSystem::update(double deltaTime)
         {"type","position","size","color","textureIndex","rotation","rect"});
     }
     
-    renderVAO->computeUsingTransformFeedback(computeProgram);
+    computeVAO->computeUsingTransformFeedback(computeProgram);
+//    glFinish();
+//    vbo2->copyFromBuffer(tbo);
+//    void *tdata = tbo->lock();
+//    void *vdata = vbo2->lock();
+//    //memcpy(vdata, tdata, tbo->size);
+//    tbo->unlock();
+//    vbo2->unlock();
+//    glFinish();
     
 //    auto nodes = static_cast<SFParticleNode*>(tbo->lock());
 //    auto indexs = static_cast<GLuint*>(ebo->lock());
@@ -120,4 +133,5 @@ void SFParticleSystem::update(double deltaTime)
 void SFParticleSystem::render(shared_ptr<GLFrameBuffer> framebuffer)
 {
     framebuffer->draw(renderProgram, renderVAO);
+    glFinish();
 }

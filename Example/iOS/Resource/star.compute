@@ -1,5 +1,5 @@
 position = vec3(0.0);
-float size = 1000.0;
+size = 100.0;
 color = vec4(1.0,1.0,1.0,1.0);
 textureIndex = 1.0;
 rotation = 0.0;

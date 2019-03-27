@@ -43,9 +43,9 @@ namespace Starfall {
 //         rotation = 0.0;
 //         rect = vec4(0.0);
          
-         type = 1.0;
+         type = 0.0;
          position = vec3(0.0);
-         size = 100.0;
+         size = 0.0;
          color = vec4(1.0);
          textureIndex = 1.0;
          rotation = 0.0;
