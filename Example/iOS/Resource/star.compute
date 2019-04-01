@@ -1,4 +1,4 @@
-position = vec3(0.0);
+position = vec3(sin(time+rand.x),cos(time+rand.z),0.0);
 size = 100.0;
 color = vec4(1.0,1.0,1.0,1.0);
 textureIndex = 1.0;

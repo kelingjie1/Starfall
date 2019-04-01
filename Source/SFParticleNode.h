@@ -43,8 +43,8 @@ namespace Starfall
         GLfloat size;
         GLfloat color[4];
         GLfloat textureIndex;
-        GLfloat rotation;
         GLfloat rect[4];
+        GLfloat sincos[2];
         
         static vector<GLVertexArrayParams> getLayout() {
             vector<GLVertexArrayParams> params;
@@ -53,8 +53,8 @@ namespace Starfall
             params.push_back(GLVertexArrayParams(GL_FLOAT));
             params.push_back(GLVertexArrayParams(GL_FLOAT,4));
             params.push_back(GLVertexArrayParams(GL_FLOAT));
-            params.push_back(GLVertexArrayParams(GL_FLOAT));
             params.push_back(GLVertexArrayParams(GL_FLOAT,4));
+            params.push_back(GLVertexArrayParams(GL_FLOAT,2));
             return params;
         }
     };

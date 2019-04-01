@@ -31,13 +31,12 @@ void SFParticleSystem::setup(SFParticleConfig config)
             for (int j=0; j<4; j++) {
                 objects[i].rand[j] = rand()%1000/1000.0;
             }
-            
-        }
 #ifdef TEST
-        objects[0].tmp = 1;
-        objects[0].time = 0;
-        objects[0].life = 10;
+            objects[i].tmp = 1;
+            objects[i].time = 0;
+            objects[i].life = 10;
 #endif
+        }
     });
     
     tbo = GLBuffer::create();
@@ -45,17 +44,17 @@ void SFParticleSystem::setup(SFParticleConfig config)
     tbo->accessData([=](void *pointer){
         auto nodes = static_cast<SFParticleNode*>(pointer);
         memset(nodes, 0, tbo->size);
-#ifdef TEST
-        nodes[0].color[0] = 1;
-        nodes[0].color[1] = 1;
-        nodes[0].color[2] = 1;
-        nodes[0].color[3] = 1;
-
-        nodes[0].rect[2] = 100.0/1024.0;
-        nodes[0].rect[3] = 100.0/1024.0;
-
-        nodes[0].size = 100;
-#endif
+//#ifdef TEST
+//        nodes[0].color[0] = 1;
+//        nodes[0].color[1] = 1;
+//        nodes[0].color[2] = 1;
+//        nodes[0].color[3] = 1;
+//
+//        nodes[0].rect[2] = 100.0/1024.0;
+//        nodes[0].rect[3] = 100.0/1024.0;
+//
+//        nodes[0].size = 100;
+//#endif
 
     });
     
@@ -107,31 +106,25 @@ void SFParticleSystem::update(double deltaTime)
         computeVertexShader.replace(it, 1, ss.str());
         computeProgram = GLProgram::create();
         computeProgram->setTransformFeedbackShader(computeVertexShader,
-        {"type","position","size","color","textureIndex","rotation","rect"});
+        {"type","position","size","color","textureIndex","rect","sincos"});
     }
     
     computeVAO->computeUsingTransformFeedback(computeProgram);
-//    glFinish();
-//    vbo2->copyFromBuffer(tbo);
-//    void *tdata = tbo->lock();
-//    void *vdata = vbo2->lock();
-//    //memcpy(vdata, tdata, tbo->size);
-//    tbo->unlock();
-//    vbo2->unlock();
-//    glFinish();
     
-//    auto nodes = static_cast<SFParticleNode*>(tbo->lock());
-//    auto indexs = static_cast<GLuint*>(ebo->lock());
-//    for(auto &emiter:emitters) {
-//        emiter->update(this, nodes, indexs,config.maxParticleCount);
-//    }
-//    ebo->unlock();
-//    tbo->unlock();
+    auto nodes = static_cast<SFParticleNode*>(tbo->lock());
+    auto indexs = static_cast<GLuint*>(ebo->lock());
+    for(auto &emiter:emitters) {
+        emiter->update(this, nodes, indexs,config.maxParticleCount);
+    }
+    ebo->unlock();
+    tbo->unlock();
     
 }
 
 void SFParticleSystem::render(shared_ptr<GLFrameBuffer> framebuffer)
 {
-    framebuffer->draw(renderProgram, renderVAO);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    framebuffer->draw(renderProgram, renderVAO, GLDrawOption());
     glFinish();
 }
