@@ -24,9 +24,11 @@ namespace Starfall {
      layout(location = 5) in vec2 frameSize;
      layout(location = 6) in float frameIndex;
      
+     uniform mat4 transformMatrix;
+     
      
      out float type;
-     out vec3 position;
+     out vec4 position;
      out float size;
      out vec4 color;
      out float textureIndex;
@@ -44,7 +46,7 @@ namespace Starfall {
 //         rect = vec4(0.0);
          float rotation;
          type = 0.0;
-         position = vec3(0.0);
+         position = vec4(0.0);
          size = 0.0;
          color = vec4(1.0);
          textureIndex = 1.0;
@@ -54,6 +56,9 @@ namespace Starfall {
              type = 0.0;
          }
          @
+         else {
+             position = transformMatrix*position;
+         }
          size = 100.0;
          sincos = vec2(0.0,1.0);
      }
@@ -63,7 +68,7 @@ namespace Starfall {
     SHADER_STRING
     (
      layout(location = 0) in float type;//0:死亡/1:初始化/2:活着
-     layout(location = 1) in vec3 position;
+     layout(location = 1) in vec4 position;
      layout(location = 2) in float size;
      layout(location = 3) in vec4 color;
      layout(location = 4) in float textureIndex;
@@ -87,7 +92,7 @@ namespace Starfall {
              fs_textureIndex = -1.0;
              return;
          }
-         gl_Position = vec4(position.x, position.y, 0.0, 1.0);
+         gl_Position = position;
          gl_PointSize = 1000.0;
          //gl_Position = vpMatrix*vec4(position.x, position.y, position.z, 1.0);
          //gl_PointSize = screenSize.x/gl_Position.w*size*1.414;

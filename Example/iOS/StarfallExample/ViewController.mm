@@ -57,7 +57,7 @@ using namespace Starfall;
     }
     framebuffer->clear(1, 0, 0, 1);
     NSDate *t0 = [NSDate date];
-    particleSystem->update(0);
+    particleSystem->update(self.timeSinceLastDraw);
     NSDate *t1 = [NSDate date];
     NSLog(@"update:%f",[t1 timeIntervalSinceDate:t0]);
     particleSystem->render(framebuffer);

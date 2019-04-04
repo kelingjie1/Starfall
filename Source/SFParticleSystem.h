@@ -36,12 +36,13 @@ namespace Starfall {
         string computeVertexShader;
         vector<shared_ptr<SFParticleEmitter>> emitters;
         vector<pair<string,shared_ptr<GLTexture>>> particleTemplates;
-        
+        vector<float> transformMatrix;
     public:
         SFParticleNode *getNextUnusedNode();
         void setup(SFParticleConfig config);
         void addParticle(string particleDescription,shared_ptr<GLTexture> texture);
         void addEmiter(shared_ptr<SFParticleEmitter> emitter);
+        void setTransformMatrix(vector<float> matrix);
         void update(double deltaTime);
         void render(shared_ptr<GLFrameBuffer> framebuffer);
     };

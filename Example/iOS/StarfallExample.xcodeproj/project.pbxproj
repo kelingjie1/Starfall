@@ -380,6 +380,7 @@
 					"$(inherited)",
 				);
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../Library/glm/\"",
 					"\"$(SRCROOT)/../../Library/ObjectiveGL/Source/\"",
 					"\"$(SRCROOT)/../../Source/\"",
 				);
@@ -405,6 +406,7 @@
 					IOS,
 				);
 				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../../Library/glm/\"",
 					"\"$(SRCROOT)/../../Library/ObjectiveGL/Source/\"",
 					"\"$(SRCROOT)/../../Source/\"",
 				);

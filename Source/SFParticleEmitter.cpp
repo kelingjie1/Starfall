@@ -7,3 +7,7 @@
 //
 
 #include "SFParticleEmitter.h"
+using namespace Starfall;
+void SFParticleEmitter::update(SFParticleSystem *system, SFParticleObject *object, GLuint *indexs, int count) {
+    
+}

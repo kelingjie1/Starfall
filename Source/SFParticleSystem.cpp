@@ -21,6 +21,13 @@ void SFParticleSystem::setup(SFParticleConfig config)
     this->config = config;
     auto context = GLContext::current();
     
+    transformMatrix =
+    {1,0,0,0,
+     0,1,0,0,
+     0,0,1,0,
+     0,0,0,1,
+    };
+    
     vbo = GLBuffer::create();
     vbo->alloc(sizeof(SFParticleObject),config.maxParticleCount);
     vbo->accessData([=](void *pointer){
@@ -87,10 +94,18 @@ void SFParticleSystem::setup(SFParticleConfig config)
 
 void SFParticleSystem::addParticle(string particleDescription,shared_ptr<GLTexture> texture) {
     particleTemplates.push_back(make_pair(particleDescription, texture));
+    computeProgram = nullptr;
     
 }
 void SFParticleSystem::addEmiter(shared_ptr<SFParticleEmitter> emitter) {
     emitters.push_back(emitter);
+}
+
+void SFParticleSystem::setTransformMatrix(vector<float> matrix) {
+    if (matrix.size()!=16) {
+        throw length_error("matrix must be 4x4");
+    };
+    transformMatrix = matrix;
 }
 
 void SFParticleSystem::update(double deltaTime)
@@ -108,16 +123,25 @@ void SFParticleSystem::update(double deltaTime)
         computeProgram->setTransformFeedbackShader(computeVertexShader,
         {"type","position","size","color","textureIndex","rect","sincos"});
     }
+    computeProgram->setUniform("transformMatrix", transformMatrix);
+    
+    auto objects = static_cast<SFParticleObject*>(vbo->lock());
+    auto indexs = static_cast<GLuint*>(ebo->lock());
+    
+    for (int i=0; i<vbo->count; i++) {
+        objects[i].time += deltaTime;
+    }
+    
+    for(auto &emiter:emitters) {
+        emiter->update(this, objects, indexs,config.maxParticleCount);
+    }
+    ebo->unlock();
+    vbo->unlock();
+    
     
     computeVAO->computeUsingTransformFeedback(computeProgram);
     
-    auto nodes = static_cast<SFParticleNode*>(tbo->lock());
-    auto indexs = static_cast<GLuint*>(ebo->lock());
-    for(auto &emiter:emitters) {
-        emiter->update(this, nodes, indexs,config.maxParticleCount);
-    }
-    ebo->unlock();
-    tbo->unlock();
+    
     
 }
 
