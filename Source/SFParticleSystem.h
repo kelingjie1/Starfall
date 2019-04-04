@@ -21,6 +21,7 @@ namespace Starfall {
     {
     public:
         int maxParticleCount;
+        bool useTriangleRenderer;
     };
     class SFParticleSystem
     {
@@ -37,8 +38,9 @@ namespace Starfall {
         vector<shared_ptr<SFParticleEmitter>> emitters;
         vector<pair<string,shared_ptr<GLTexture>>> particleTemplates;
         vector<float> transformMatrix;
+        
     public:
-        SFParticleNode *getNextUnusedNode();
+        SFParticlePointNode *getNextUnusedNode();
         void setup(SFParticleConfig config);
         void addParticle(string particleDescription,shared_ptr<GLTexture> texture);
         void addEmiter(shared_ptr<SFParticleEmitter> emitter);

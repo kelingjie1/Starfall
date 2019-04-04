@@ -46,31 +46,46 @@ void SFParticleSystem::setup(SFParticleConfig config)
         }
     });
     
+    
     tbo = GLBuffer::create();
-    tbo->alloc(sizeof(SFParticleNode),config.maxParticleCount);
+    if (!config.useTriangleRenderer) {
+        tbo->alloc(sizeof(SFParticlePointNode),config.maxParticleCount);
+    }
+    else {
+        tbo->alloc(sizeof(SFParticleTriangleNode),config.maxParticleCount*4);
+    }
+    
     tbo->accessData([=](void *pointer){
-        auto nodes = static_cast<SFParticleNode*>(pointer);
-        memset(nodes, 0, tbo->size);
-//#ifdef TEST
-//        nodes[0].color[0] = 1;
-//        nodes[0].color[1] = 1;
-//        nodes[0].color[2] = 1;
-//        nodes[0].color[3] = 1;
-//
-//        nodes[0].rect[2] = 100.0/1024.0;
-//        nodes[0].rect[3] = 100.0/1024.0;
-//
-//        nodes[0].size = 100;
-//#endif
-
+        memset(pointer, 0, tbo->size);
     });
     
     ebo = GLBuffer::create();
-    ebo->alloc(sizeof(GLuint),config.maxParticleCount);
-    ebo->accessData([=](void *pointer){
-        auto indexs = static_cast<GLuint*>(pointer);
-        memset(indexs, 0, ebo->size);
-    });
+    
+    if (!config.useTriangleRenderer) {
+        ebo->alloc(sizeof(GLuint),config.maxParticleCount);
+        ebo->accessData([=](void *pointer){
+            auto indexs = static_cast<GLuint*>(pointer);
+            for (int i=0; i<ebo->count; i++) {
+                indexs[i] = i;
+            }
+        });
+    }
+    else {
+        ebo->alloc(sizeof(GLuint),config.maxParticleCount*6);
+        ebo->accessData([=](void *pointer){
+            auto indexs = static_cast<GLuint*>(pointer);
+            for (int i=0; i<config.maxParticleCount; i++) {
+                indexs[i*6] = i;
+                indexs[i*6+1] = i+1;
+                indexs[i*6+2] = i+3;
+                
+                indexs[i*6+3] = i+1;
+                indexs[i*6+4] = i+2;
+                indexs[i*6+5] = i+3;
+            }
+        });
+    }
+    
     
     computeVAO = GLVertexArray::create();
     computeVAO->setBuffer(GL_ARRAY_BUFFER,vbo);
@@ -82,14 +97,20 @@ void SFParticleSystem::setup(SFParticleConfig config)
     
     renderVAO = GLVertexArray::create();
     renderVAO->setBuffer(GL_ARRAY_BUFFER,tbo);
-    //vao->setBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
+    renderVAO->setBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
     renderVAO->setElementBufferType(GL_UNSIGNED_INT);
     renderVAO->setDrawMode(GL_POINTS);
-    renderVAO->setParams(SFParticleNode::getLayout());
+    renderVAO->setParams(SFParticlePointNode::getLayout());
     
     
     renderProgram = GLProgram::create();
-    renderProgram->setRenderShader(ParticleVertexShader, ParticleFragmentShader);
+    if (!config.useTriangleRenderer) {
+        renderProgram->setRenderShader(ParticlePointVertexShader, ParticlePointFragmentShader);
+    }
+    else {
+        renderProgram->setRenderShader(ParticleTriangleVertexShader, ParticleTriangleFragmentShader);
+    }
+    
 }
 
 void SFParticleSystem::addParticle(string particleDescription,shared_ptr<GLTexture> texture) {
@@ -116,12 +137,27 @@ void SFParticleSystem::update(double deltaTime)
             ss << "else if (tmp == "<<i+1<<".0)"<<"{"<<particleTemplates[i].first<<"}"<<endl;
         }
         
-        computeVertexShader = ParticleComputeShader;
+        if (!config.useTriangleRenderer) {
+            computeVertexShader = ParticlePointComputeShader;
+        }
+        else {
+            computeVertexShader = ParticleTriangleComputeShader;
+        }
         auto it = computeVertexShader.find("@");
         computeVertexShader.replace(it, 1, ss.str());
         computeProgram = GLProgram::create();
-        computeProgram->setTransformFeedbackShader(computeVertexShader,
-        {"type","position","size","color","textureIndex","rect","sincos"});
+        if (!config.useTriangleRenderer) {
+            computeProgram->setTransformFeedbackShader(computeVertexShader,
+                                                       {"type","position","size","color","textureIndex","rect","sincos"});
+        }
+        else {
+            computeProgram->setTransformFeedbackShader(computeVertexShader,
+                                                       {"type0","position0","color0","textureIndex0","uv0",
+                                                        "type1","position1","color1","textureIndex1","uv1",
+                                                        "type2","position2","color2","textureIndex2","uv2",
+                                                        "type3","position3","color3","textureIndex3","uv3",
+                                                       });
+        }
     }
     computeProgram->setUniform("transformMatrix", transformMatrix);
     

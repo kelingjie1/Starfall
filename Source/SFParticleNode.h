@@ -35,10 +35,10 @@ namespace Starfall
             return params;
         }
     };
-    class SFParticleNode
+    class SFParticlePointNode
     {
     public:
-        GLfloat type;//0:死亡/1:初始化/2:活着
+        GLfloat type;
         GLfloat position[4];
         GLfloat size;
         GLfloat color[4];
@@ -54,6 +54,26 @@ namespace Starfall
             params.push_back(GLVertexArrayParams(GL_FLOAT,4));
             params.push_back(GLVertexArrayParams(GL_FLOAT));
             params.push_back(GLVertexArrayParams(GL_FLOAT,4));
+            params.push_back(GLVertexArrayParams(GL_FLOAT,2));
+            return params;
+        }
+    };
+    
+    class SFParticleTriangleNode
+    {
+    public:
+        GLfloat type;
+        GLfloat position[4];
+        GLfloat color[4];
+        GLfloat textureIndex;
+        GLfloat uv[2];
+        
+        static vector<GLVertexArrayParams> getLayout() {
+            vector<GLVertexArrayParams> params;
+            params.push_back(GLVertexArrayParams(GL_FLOAT));
+            params.push_back(GLVertexArrayParams(GL_FLOAT,4));
+            params.push_back(GLVertexArrayParams(GL_FLOAT,4));
+            params.push_back(GLVertexArrayParams(GL_FLOAT));
             params.push_back(GLVertexArrayParams(GL_FLOAT,2));
             return params;
         }
