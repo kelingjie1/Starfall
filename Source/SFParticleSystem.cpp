@@ -34,15 +34,19 @@ void SFParticleSystem::setup(SFParticleConfig config)
         auto objects = static_cast<SFParticleObject*>(pointer);
         memset(objects, 0, vbo->size);
         for (int i=0; i<vbo->count; i++) {
-            objects[i].index = i;
             for (int j=0; j<4; j++) {
                 objects[i].rand[j] = rand()%1000/1000.0;
-            }
 #ifdef TEST
-            objects[i].tmp = 1;
-            objects[i].time = 0;
-            objects[i].life = 10;
+                objects[i].tmp = 1;
+                objects[i].time = 0;
+                objects[i].life = 10;
 #endif
+            }
+//#ifdef TEST
+//            objects[0].tmp = 1;
+//            objects[0].time = 0;
+//            objects[0].life = 10;
+//#endif
         }
     });
     
@@ -74,14 +78,15 @@ void SFParticleSystem::setup(SFParticleConfig config)
         ebo->alloc(sizeof(GLuint),config.maxParticleCount*6);
         ebo->accessData([=](void *pointer){
             auto indexs = static_cast<GLuint*>(pointer);
+            memset(pointer, 0, ebo->size);
             for (int i=0; i<config.maxParticleCount; i++) {
-                indexs[i*6] = i;
-                indexs[i*6+1] = i+1;
-                indexs[i*6+2] = i+3;
+                indexs[i*6] = i*4;
+                indexs[i*6+1] = i*4+1;
+                indexs[i*6+2] = i*4+2;
                 
-                indexs[i*6+3] = i+1;
-                indexs[i*6+4] = i+2;
-                indexs[i*6+5] = i+3;
+                indexs[i*6+3] = i*4;
+                indexs[i*6+4] = i*4+2;
+                indexs[i*6+5] = i*4+3;
             }
         });
     }
@@ -89,7 +94,6 @@ void SFParticleSystem::setup(SFParticleConfig config)
     
     computeVAO = GLVertexArray::create();
     computeVAO->setBuffer(GL_ARRAY_BUFFER,vbo);
-    //vao->setBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
     computeVAO->setBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, tbo);
     computeVAO->setElementBufferType(GL_UNSIGNED_INT);
     computeVAO->setDrawMode(GL_POINTS);
@@ -99,8 +103,15 @@ void SFParticleSystem::setup(SFParticleConfig config)
     renderVAO->setBuffer(GL_ARRAY_BUFFER,tbo);
     renderVAO->setBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
     renderVAO->setElementBufferType(GL_UNSIGNED_INT);
-    renderVAO->setDrawMode(GL_POINTS);
-    renderVAO->setParams(SFParticlePointNode::getLayout());
+    if (!config.useTriangleRenderer) {
+        renderVAO->setDrawMode(GL_POINTS);
+        renderVAO->setParams(SFParticlePointNode::getLayout());
+    }
+    else {
+        renderVAO->setDrawMode(GL_TRIANGLES);
+        renderVAO->setParams(SFParticleTriangleNode::getLayout());
+    }
+    
     
     
     renderProgram = GLProgram::create();
@@ -157,8 +168,10 @@ void SFParticleSystem::update(double deltaTime)
                                                         "type2","position2","color2","textureIndex2","uv2",
                                                         "type3","position3","color3","textureIndex3","uv3",
                                                        });
+            computeProgram->setUniform("screenSize", config.screenSize.first, config.screenSize.second);
         }
     }
+    computeProgram->use();
     computeProgram->setUniform("transformMatrix", transformMatrix);
     
     auto objects = static_cast<SFParticleObject*>(vbo->lock());
@@ -177,7 +190,11 @@ void SFParticleSystem::update(double deltaTime)
     
     computeVAO->computeUsingTransformFeedback(computeProgram);
     
-    
+    auto nodes = static_cast<SFParticleTriangleNode*>(tbo->lock());
+    indexs = static_cast<GLuint*>(ebo->lock());
+
+    ebo->unlock();
+    tbo->unlock();
     
 }
 

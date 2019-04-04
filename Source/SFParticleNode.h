@@ -16,13 +16,12 @@ namespace Starfall
     using namespace ObjectiveGL;
     class SFParticleObject {
     public:
-        GLfloat index;
         GLfloat tmp;
         GLfloat time;
         GLfloat life;
+        GLfloat frameIndex;
         GLfloat rand[4];
         GLfloat frameSize[2];
-        GLfloat frameIndex;
         static vector<GLVertexArrayParams> getLayout() {
             vector<GLVertexArrayParams> params;
             params.push_back(GLVertexArrayParams(GL_FLOAT));
@@ -31,7 +30,6 @@ namespace Starfall
             params.push_back(GLVertexArrayParams(GL_FLOAT));
             params.push_back(GLVertexArrayParams(GL_FLOAT,4));
             params.push_back(GLVertexArrayParams(GL_FLOAT,2));
-            params.push_back(GLVertexArrayParams(GL_FLOAT));
             return params;
         }
     };

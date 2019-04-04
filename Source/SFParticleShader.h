@@ -16,13 +16,13 @@ namespace Starfall {
     const string ParticlePointComputeShader = string("#version 300 es\n")+
     SHADER_STRING
     (
-     layout(location = 0) in float index;
-     layout(location = 1) in float tmp;
-     layout(location = 2) in float time;
-     layout(location = 3) in float life;
+     layout(location = 0) in float tmp;
+     layout(location = 1) in float time;
+     layout(location = 2) in float life;
+     layout(location = 3) in float frameIndex;
      layout(location = 4) in vec4 rand;
      layout(location = 5) in vec2 frameSize;
-     layout(location = 6) in float frameIndex;
+
      
      uniform mat4 transformMatrix;
      
@@ -71,8 +71,6 @@ namespace Starfall {
      out float fs_textureIndex;
      out vec4 fs_color;
      out vec4 fs_rect;
-     
-     uniform vec2 screenSize;
      
      
      void main()
@@ -140,14 +138,16 @@ namespace Starfall {
     const string ParticleTriangleComputeShader = string("#version 300 es\n")+
     SHADER_STRING
     (
-     layout(location = 0) in float index;
-     layout(location = 1) in float tmp;
-     layout(location = 2) in float time;
-     layout(location = 3) in float life;
+     layout(location = 0) in float tmp;
+     layout(location = 1) in float time;
+     layout(location = 2) in float life;
+     layout(location = 3) in float frameIndex;
      layout(location = 4) in vec4 rand;
      layout(location = 5) in vec2 frameSize;
-     layout(location = 6) in float frameIndex;
      
+     
+     
+     uniform vec2 screenSize;
      uniform mat4 transformMatrix;
      
      float rotation;
@@ -184,7 +184,11 @@ namespace Starfall {
      
      void main()
      {
-         float rotation;
+         position0 = vec4(0,0,0.0,0.0);
+         position1 = vec4(0,0,0.0,0.0);
+         position2 = vec4(0,0,0.0,0.0);
+         position3 = vec4(0,0,0.0,0.0);
+         
          type = 0.0;
          position = vec4(0.0);
          size = 0.0;
@@ -194,22 +198,25 @@ namespace Starfall {
          rect = vec4(0.0,0.0,1.0,1.0);
          if (time>=life) {
              type = 0.0;
+             return;
          }
          @
          else {
              position = transformMatrix*position;
          }
          
+         
          type0 = type;
          type1 = type;
          type2 = type;
          type3 = type;
          
-         float offset = size/position.w/2.0;
-         position0 = position+vec4(-offset,offset);
-         position1 = position+vec4(offset,offset);
-         position2 = position+vec4(offset,-offset);
-         position3 = position+vec4(-offset,-offset);
+         float of = size/position.w/2.0;
+         vec2 offset = vec2(of/screenSize.x,of/screenSize.y);
+         position0 = position+vec4(-offset.x,offset.y,0.0,0.0);
+         position1 = position+vec4(offset.x,offset.y,0.0,0.0);
+         position2 = position+vec4(offset.x,-offset.y,0.0,0.0);
+         position3 = position+vec4(-offset.x,-offset.y,0.0,0.0);
          
          color0 = color;
          color1 = color;
@@ -221,10 +228,10 @@ namespace Starfall {
          textureIndex2 = textureIndex;
          textureIndex3 = textureIndex;
          
-         uv0 = vec2(0.0,1.0);
-         uv1 = vec2(1.0,1.0);
-         uv2 = vec2(1.0,0.0);
-         uv3 = vec2(0.0,0.0);
+         uv0 = vec2(rect.x,1.0-(rect.y+rect.w));
+         uv1 = vec2(rect.x+rect.z,1.0-(rect.y+rect.w));
+         uv2 = vec2(rect.x+rect.z,1.0-rect.y);
+         uv3 = vec2(rect.x,1.0-rect.y);
          
      }
      );
@@ -232,7 +239,7 @@ namespace Starfall {
     const string ParticleTriangleVertexShader = string("#version 300 es\n")+
     SHADER_STRING
     (
-     layout(location = 0) in float type;//0:死亡/1:初始化/2:活着
+     layout(location = 0) in float type;
      layout(location = 1) in vec4 position;
      layout(location = 2) in vec4 color;
      layout(location = 3) in float textureIndex;
@@ -242,14 +249,10 @@ namespace Starfall {
      out vec4 fs_color;
      out vec2 fs_uv;
      
-     uniform vec2 screenSize;
-     
-     
      void main()
      {
-         if (size == 0.0) {
+         if (textureIndex < 0.0) {
              gl_Position = vec4(0.0, 0.0, 0.0, 1.0);
-             fs_textureIndex = -1.0;
              return;
          }
          gl_Position = position;
@@ -258,6 +261,7 @@ namespace Starfall {
          fs_color = color;
          fs_uv = uv;
      }
+
      );
     
     const string ParticleTriangleFragmentShader = string("#version 300 es\n")+
@@ -270,7 +274,8 @@ namespace Starfall {
      
      in float fs_textureIndex;
      in vec4 fs_color;
-     in vec2 fs_uv
+     in vec2 fs_uv;
+     
      void main()
      {
          if (fs_textureIndex < 0.0) {
