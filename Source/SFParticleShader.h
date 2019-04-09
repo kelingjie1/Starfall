@@ -52,7 +52,7 @@ namespace Starfall {
          else {
              position = transformMatrix*position;
          }
-         sincos = vec2(sin(rotation),cos(rotation));
+         sincos = vec2(sin(-rotation),cos(-rotation));
      }
      );
     
@@ -82,7 +82,7 @@ namespace Starfall {
              return;
          }
          gl_Position = position;
-         gl_PointSize = size/position.w;
+         gl_PointSize = size/position.w/2.0*1.414;
          
          fs_sincos = sincos;
          fs_textureIndex = textureIndex;
@@ -103,6 +103,7 @@ namespace Starfall {
      in float fs_textureIndex;
      in vec4 fs_color;
      in vec4 fs_rect;
+     
      void main()
      {
          if (fs_textureIndex < 0.0) {
@@ -110,8 +111,9 @@ namespace Starfall {
              return;
          }
          vec2 pos = vec2(gl_PointCoord.x-0.5,0.5-gl_PointCoord.y);
-//         pos = vec2(fs_sincos.y*pos.x+fs_sincos.x*pos.y,
-//                    fs_sincos.y*pos.y-fs_sincos.x*pos.x);
+         pos = vec2(fs_sincos.y*pos.x+fs_sincos.x*pos.y,
+                    fs_sincos.y*pos.y-fs_sincos.x*pos.x);
+         pos*= 1.414;
          pos = pos+vec2(0.5,0.5);
          if (pos.x<0.0||pos.x>1.0||pos.y<0.0||pos.y>1.0)
          {
@@ -150,6 +152,9 @@ namespace Starfall {
      uniform vec2 screenSize;
      uniform mat4 transformMatrix;
      
+     const float PI = 3.1415926;
+     const float PI_2 = 1.5707963;
+     
      float rotation;
      float type;
      vec4 position;
@@ -182,6 +187,11 @@ namespace Starfall {
      out float textureIndex3;
      out vec2 uv3;
      
+     vec2 rotate(vec2 pos,float rotation) {
+         return vec2(cos(rotation)*pos.x-sin(rotation)*pos.y,
+                       sin(rotation)*pos.x+cos(rotation)*pos.y);
+     }
+     
      void main()
      {
          position0 = vec4(0,0,0.0,0.0);
@@ -213,10 +223,10 @@ namespace Starfall {
          
          float of = size/position.w/2.0;
          vec2 offset = vec2(of/screenSize.x,of/screenSize.y);
-         position0 = position+vec4(-offset.x,offset.y,0.0,0.0);
-         position1 = position+vec4(offset.x,offset.y,0.0,0.0);
-         position2 = position+vec4(offset.x,-offset.y,0.0,0.0);
-         position3 = position+vec4(-offset.x,-offset.y,0.0,0.0);
+         position0 = position+vec4(rotate(offset,-PI_2-rotation),0.0,0.0);
+         position1 = position+vec4(rotate(offset,-rotation),0.0,0.0);
+         position2 = position+vec4(rotate(offset,PI_2-rotation),0.0,0.0);
+         position3 = position+vec4(rotate(offset,PI-rotation),0.0,0.0);
          
          color0 = color;
          color1 = color;
