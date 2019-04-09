@@ -171,7 +171,6 @@ void SFParticleSystem::update(double deltaTime)
             computeProgram->setUniform("screenSize", config.screenSize.first, config.screenSize.second);
         }
     }
-    computeProgram->use();
     computeProgram->setUniform("transformMatrix", transformMatrix);
     
     auto objects = static_cast<SFParticleObject*>(vbo->lock());
@@ -200,8 +199,6 @@ void SFParticleSystem::update(double deltaTime)
 
 void SFParticleSystem::render(shared_ptr<GLFrameBuffer> framebuffer)
 {
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     framebuffer->draw(renderProgram, renderVAO, GLDrawOption());
     glFinish();
 }

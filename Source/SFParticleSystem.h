@@ -22,6 +22,7 @@ namespace Starfall {
     public:
         int maxParticleCount;
         bool useTriangleRenderer;
+        bool useDefferredRendering;
         pair<GLfloat, GLfloat> screenSize;
     };
     class SFParticleSystem
