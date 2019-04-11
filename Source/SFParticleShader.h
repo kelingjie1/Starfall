@@ -97,7 +97,7 @@ namespace Starfall {
      precision lowp float;
      layout(location = 0) out vec4 color;
      uniform sampler2D textures[8];
-     uniform int premultiplied[8];
+     uniform float premultiplied[8];
      
      in vec2 fs_sincos;
      in float fs_textureIndex;
@@ -280,7 +280,8 @@ namespace Starfall {
      precision lowp float;
      layout(location = 0) out vec4 color;
      uniform sampler2D textures[8];
-     uniform int premultiplied[8];
+     uniform float premultiplied[8];
+     uniform float useDefferredRendering;
      
      in float fs_textureIndex;
      in vec4 fs_color;
@@ -298,11 +299,53 @@ namespace Starfall {
              discard;
              return;
          }
-         texColor = vec4(texColor.r * fs_color.r * fs_color.a,
-                         texColor.g * fs_color.g * fs_color.a,
-                         texColor.b * fs_color.b * fs_color.a,
-                         texColor.a * fs_color.a);
-         color = texColor;
+         if (useDefferredRendering<0.5) {
+             color = vec4(texColor.r * fs_color.r * fs_color.a,
+                          texColor.g * fs_color.g * fs_color.a,
+                          texColor.b * fs_color.b * fs_color.a,
+                          texColor.a * fs_color.a);
+         } else {
+             color = vec4(fs_textureIndex,fs_uv,0.0);
+         }
+         
+     }
+     );
+    
+    const string ParticleDefferredVertexShader = string("#version 300 es\n")+
+    SHADER_STRING
+    (
+     layout(location = 0) in vec4 position;
+     layout(location = 1) in vec2 uv;
+     
+     out vec2 fs_uv;
+     
+     void main()
+     {
+         gl_Position = position;
+         fs_uv = uv;
+     }
+     
+     );
+    
+    const string ParticleDefferredFragmentShader = string("#version 300 es\n")+
+    SHADER_STRING
+    (
+     precision lowp float;
+     layout(location = 0) out vec4 color;
+     uniform sampler2D textures[8];
+     uniform float premultiplied[8];
+     
+     in vec2 fs_uv;
+     
+     void main()
+     {
+         vec4 texColor = texture(textures[0], fs_uv);
+         if (texColor.r<0.5) {
+             discard;
+             return;
+         }
+         color = texture(textures[1],texColor.gb);
+         
      }
      );
     

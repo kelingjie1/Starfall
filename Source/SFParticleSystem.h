@@ -32,10 +32,16 @@ namespace Starfall {
         shared_ptr<GLBuffer> vbo;
         shared_ptr<GLBuffer> tbo;
         shared_ptr<GLBuffer> ebo;
+        shared_ptr<GLBuffer> defferredVBO;
+        
         shared_ptr<GLVertexArray> computeVAO;
         shared_ptr<GLVertexArray> renderVAO;
+        shared_ptr<GLVertexArray> defferredVAO;
+        
         shared_ptr<GLProgram> computeProgram;
         shared_ptr<GLProgram> renderProgram;
+        shared_ptr<GLProgram> defferredProgram;
+        
         string computeVertexShader;
         vector<shared_ptr<SFParticleEmitter>> emitters;
         vector<pair<string,shared_ptr<GLTexture>>> particleTemplates;

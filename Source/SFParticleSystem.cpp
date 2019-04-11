@@ -122,12 +122,31 @@ void SFParticleSystem::setup(SFParticleConfig config)
         renderProgram->setRenderShader(ParticleTriangleVertexShader, ParticleTriangleFragmentShader);
     }
     
+    
+    if (config.useDefferredRendering) {
+        defferredVBO = GLBuffer::create();
+        defferredVBO->alloc(sizeof(SFParticleObject),config.maxParticleCount);
+        defferredVBO->accessData([=](void *pointer){
+            auto objects = static_cast<SFParticleObject*>(pointer);
+            memset(objects, 0, vbo->size);
+            for (int i=0; i<vbo->count; i++) {
+                for (int j=0; j<4; j++) {
+                    objects[i].rand[j] = rand()%1000/1000.0;
+#ifdef TEST
+                    objects[i].tmp = 1;
+                    objects[i].time = 0;
+                    objects[i].life = 10;
+#endif
+                }
+            }
+        });
+    }
+    
 }
 
 void SFParticleSystem::addParticle(string particleDescription,shared_ptr<GLTexture> texture) {
     particleTemplates.push_back(make_pair(particleDescription, texture));
     computeProgram = nullptr;
-    
 }
 void SFParticleSystem::addEmiter(shared_ptr<SFParticleEmitter> emitter) {
     emitters.push_back(emitter);
@@ -144,8 +163,11 @@ void SFParticleSystem::update(double deltaTime)
 {
     if (!computeProgram) {
         stringstream ss;
+        vector<shared_ptr<GLTexture>> textures;
+        textures.resize(8);
         for (int i=0;i<particleTemplates.size();i++) {
             ss << "else if (tmp == "<<i+1<<".0)"<<"{"<<particleTemplates[i].first<<"}"<<endl;
+            textures[i] = particleTemplates[i].second;
         }
         
         if (!config.useTriangleRenderer) {
@@ -170,8 +192,16 @@ void SFParticleSystem::update(double deltaTime)
                                                        });
             computeProgram->setUniform("screenSize", config.screenSize.first, config.screenSize.second);
         }
+        if (config.useDefferredRendering) {
+            computeProgram->setUniform("useDefferredRendering", 1.0f);
+        }
+        else {
+            computeProgram->setUniform("useDefferredRendering", 0.0f);
+        }
+        
+        //renderProgram->setTextures("textures", textures);
     }
-    computeProgram->setUniform("transformMatrix", transformMatrix);
+    computeProgram->setUniformMatrix("transformMatrix", transformMatrix);
     
     auto objects = static_cast<SFParticleObject*>(vbo->lock());
     auto indexs = static_cast<GLuint*>(ebo->lock());

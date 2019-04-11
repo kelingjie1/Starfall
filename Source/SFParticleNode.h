@@ -76,4 +76,17 @@ namespace Starfall
             return params;
         }
     };
+    
+    class SFParticleDefferredVertex {
+    public:
+        GLfloat position[2];
+        GLfloat uv[2];
+        
+        static vector<GLVertexArrayParams> getLayout() {
+            vector<GLVertexArrayParams> params;
+            params.push_back(GLVertexArrayParams(GL_FLOAT,2));
+            params.push_back(GLVertexArrayParams(GL_FLOAT,2));
+            return params;
+        }
+    };
 }
