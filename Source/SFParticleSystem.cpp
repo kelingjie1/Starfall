@@ -199,7 +199,7 @@ void SFParticleSystem::update(double deltaTime)
             computeProgram->setUniform("useDefferredRendering", 0.0f);
         }
         
-        //renderProgram->setTextures("textures", textures);
+        renderProgram->setTextures("textures", textures);
     }
     computeProgram->setUniformMatrix("transformMatrix", transformMatrix);
     
