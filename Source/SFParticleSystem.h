@@ -42,6 +42,11 @@ namespace Starfall {
         shared_ptr<GLProgram> renderProgram;
         shared_ptr<GLProgram> defferredProgram;
         
+        GLDrawOption drawOption;
+        
+        shared_ptr<GLTexture> defferredTexture;
+        shared_ptr<GLFrameBuffer> defferredFramebuffer;
+        
         string computeVertexShader;
         vector<shared_ptr<SFParticleEmitter>> emitters;
         vector<pair<string,shared_ptr<GLTexture>>> particleTemplates;

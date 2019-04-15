@@ -39,7 +39,7 @@ void SFParticleSystem::setup(SFParticleConfig config)
 #ifdef TEST
                 objects[i].tmp = 1;
                 objects[i].time = 0;
-                objects[i].life = 10;
+                objects[i].life = 100;
 #endif
             }
 //#ifdef TEST
@@ -121,25 +121,58 @@ void SFParticleSystem::setup(SFParticleConfig config)
     else {
         renderProgram->setRenderShader(ParticleTriangleVertexShader, ParticleTriangleFragmentShader);
     }
+    if (config.useDefferredRendering) {
+        renderProgram->setUniform("useDefferredRendering", 1.0f);
+        drawOption.enableBlend = false;
+    }
+    else {
+        renderProgram->setUniform("useDefferredRendering", 0.0f);
+        drawOption.enableBlend = true;
+    }
     
     
     if (config.useDefferredRendering) {
         defferredVBO = GLBuffer::create();
-        defferredVBO->alloc(sizeof(SFParticleObject),config.maxParticleCount);
+        defferredVBO->alloc(sizeof(SFParticleDefferredVertex),4);
         defferredVBO->accessData([=](void *pointer){
-            auto objects = static_cast<SFParticleObject*>(pointer);
-            memset(objects, 0, vbo->size);
-            for (int i=0; i<vbo->count; i++) {
-                for (int j=0; j<4; j++) {
-                    objects[i].rand[j] = rand()%1000/1000.0;
-#ifdef TEST
-                    objects[i].tmp = 1;
-                    objects[i].time = 0;
-                    objects[i].life = 10;
-#endif
-                }
-            }
+            auto vertex = static_cast<SFParticleDefferredVertex*>(pointer);
+            vertex[0].position[0] = -1;
+            vertex[0].position[1] = 1;
+            vertex[0].uv[0] = 0;
+            vertex[0].uv[1] = 1;
+            
+            vertex[1].position[0] = 1;
+            vertex[1].position[1] = 1;
+            vertex[1].uv[0] = 1;
+            vertex[1].uv[1] = 1;
+            
+            vertex[2].position[0] = 1;
+            vertex[2].position[1] = -1;
+            vertex[2].uv[0] = 1;
+            vertex[2].uv[1] = 0;
+            
+            vertex[3].position[0] = -1;
+            vertex[3].position[1] = -1;
+            vertex[3].uv[0] = 0;
+            vertex[3].uv[1] = 0;
         });
+        
+        
+        defferredVAO = GLVertexArray::create();
+        defferredVAO->setBuffer(GL_ARRAY_BUFFER,defferredVBO);
+        defferredVAO->setDrawMode(GL_TRIANGLE_FAN);
+        defferredVAO->setParams(SFParticleDefferredVertex::getLayout());
+        
+        defferredTexture = GLTexture::create();
+        defferredTexture->setImageData(nullptr, config.screenSize.first, config.screenSize.second);
+        
+        defferredFramebuffer = GLFrameBuffer::create();
+        defferredFramebuffer->setColorTexture(defferredTexture);
+        
+        defferredProgram = GLProgram::create();
+        defferredProgram->setRenderShader(ParticleDefferredVertexShader, ParticleDefferredFragmentShader);
+        
+        defferredProgram->setTexture("defferredTexture", defferredTexture);
     }
     
 }
@@ -192,14 +225,12 @@ void SFParticleSystem::update(double deltaTime)
                                                        });
             computeProgram->setUniform("screenSize", config.screenSize.first, config.screenSize.second);
         }
-        if (config.useDefferredRendering) {
-            computeProgram->setUniform("useDefferredRendering", 1.0f);
-        }
-        else {
-            computeProgram->setUniform("useDefferredRendering", 0.0f);
-        }
         
         renderProgram->setTextures("textures", textures);
+        if (config.useDefferredRendering) {
+            defferredProgram->setTextures("textures", textures);
+        }
+        
     }
     computeProgram->setUniformMatrix("transformMatrix", transformMatrix);
     
@@ -229,6 +260,13 @@ void SFParticleSystem::update(double deltaTime)
 
 void SFParticleSystem::render(shared_ptr<GLFrameBuffer> framebuffer)
 {
-    framebuffer->draw(renderProgram, renderVAO, GLDrawOption());
+    if (!config.useDefferredRendering) {
+        framebuffer->draw(renderProgram, renderVAO, drawOption);
+    }
+    else {
+        defferredFramebuffer->clear(0, 0, 0, 1);
+        defferredFramebuffer->draw(renderProgram, renderVAO, drawOption);
+        framebuffer->draw(defferredProgram, defferredVAO, drawOption);
+    }
     glFinish();
 }

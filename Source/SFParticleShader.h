@@ -98,6 +98,7 @@ namespace Starfall {
      layout(location = 0) out vec4 color;
      uniform sampler2D textures[8];
      uniform float premultiplied[8];
+     uniform float useDefferredRendering;
      
      in vec2 fs_sincos;
      in float fs_textureIndex;
@@ -119,18 +120,22 @@ namespace Starfall {
          {
              discard;
          }
-         vec4 texColor = vec4(1.0,1.0,1.0,1.0);
-         texColor = texture(textures[0], vec2(fs_rect.x+pos.x*fs_rect.z,
-                                              1.0-(fs_rect.y+pos.y*fs_rect.w)));
-         if (texColor.a<0.1) {
-             discard;
-             return;
+         vec2 uv = vec2(fs_rect.x+pos.x*fs_rect.z,
+                        1.0-(fs_rect.y+pos.y*fs_rect.w));
+         if (useDefferredRendering<0.5) {
+             vec4 texColor = vec4(1.0,1.0,1.0,1.0);
+             texColor = texture(textures[0], uv);
+             if (texColor.a<0.1) {
+                 discard;
+                 return;
+             }
+             color = vec4(texColor.r * fs_color.r * fs_color.a,
+                          texColor.g * fs_color.g * fs_color.a,
+                          texColor.b * fs_color.b * fs_color.a,
+                          texColor.a * fs_color.a);
+         } else {
+             color = vec4(fs_textureIndex,uv,1.0);
          }
-         texColor = vec4(texColor.r * fs_color.r * fs_color.a,
-                         texColor.g * fs_color.g * fs_color.a,
-                         texColor.b * fs_color.b * fs_color.a,
-                         texColor.a * fs_color.a);
-         color = texColor;
      }
      );
     
@@ -293,19 +298,19 @@ namespace Starfall {
              discard;
              return;
          }
-         vec4 texColor = vec4(1.0,1.0,1.0,1.0);
-         texColor = texture(textures[0], fs_uv);
-         if (texColor.a<0.1) {
-             discard;
-             return;
-         }
          if (useDefferredRendering<0.5) {
+             vec4 texColor = vec4(1.0,1.0,1.0,1.0);
+             texColor = texture(textures[0], fs_uv);
+             if (texColor.a<0.1) {
+                 discard;
+                 return;
+             }
              color = vec4(texColor.r * fs_color.r * fs_color.a,
                           texColor.g * fs_color.g * fs_color.a,
                           texColor.b * fs_color.b * fs_color.a,
                           texColor.a * fs_color.a);
          } else {
-             color = vec4(fs_textureIndex,fs_uv,0.0);
+             color = vec4(fs_textureIndex,fs_uv,1.0);
          }
          
      }
@@ -332,6 +337,7 @@ namespace Starfall {
     (
      precision lowp float;
      layout(location = 0) out vec4 color;
+     uniform sampler2D defferredTexture;
      uniform sampler2D textures[8];
      uniform float premultiplied[8];
      
@@ -339,12 +345,13 @@ namespace Starfall {
      
      void main()
      {
-         vec4 texColor = texture(textures[0], fs_uv);
+         vec4 texColor = texture(defferredTexture, fs_uv);
          if (texColor.r<0.5) {
              discard;
              return;
          }
-         color = texture(textures[1],texColor.gb);
+         
+         color = texture(textures[0],texColor.gb);
          
      }
      );

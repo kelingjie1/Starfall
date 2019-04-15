@@ -28,6 +28,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0705E478226032E900EF9F85 /* GLCaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLCaps.h; path = ../../Library/ObjectiveGL/Source/GLCaps.h; sourceTree = "<group>"; };
 		0742D64A22410E3000324C01 /* GLObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLObject.h; path = ../../Library/ObjectiveGL/Source/GLObject.h; sourceTree = "<group>"; };
 		0742D64B22410E3000324C01 /* GLFrameBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLFrameBuffer.h; path = ../../Library/ObjectiveGL/Source/GLFrameBuffer.h; sourceTree = "<group>"; };
 		0742D64C22410E3000324C01 /* GLBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLBuffer.h; path = ../../Library/ObjectiveGL/Source/GLBuffer.h; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 			isa = PBXGroup;
 			children = (
 				0742D6762244902600324C01 /* Platform */,
+				0705E478226032E900EF9F85 /* GLCaps.h */,
 				0742D65022410E3000324C01 /* GLContext.h */,
 				0742D64A22410E3000324C01 /* GLObject.h */,
 				0742D64C22410E3000324C01 /* GLBuffer.h */,
