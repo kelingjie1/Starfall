@@ -1,0 +1,10 @@
+maxParticleCount:100000
+particles:star.compute
+textures:star.png
+eyeX:180
+eyeY:200
+eyeZ:0
+lookAtX:0
+lookAtY:0
+lookAtZ:0
+

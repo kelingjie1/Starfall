@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		0742D67522448E8E00324C01 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0742D67422448E8D00324C01 /* GLKit.framework */; };
 		074D4AF82240E95700EB9304 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 074D4AF72240E95700EB9304 /* AppDelegate.m */; };
-		074D4AFB2240E95700EB9304 /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 074D4AFA2240E95700EB9304 /* ViewController.mm */; };
+		074D4AFB2240E95700EB9304 /* RenderViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 074D4AFA2240E95700EB9304 /* RenderViewController.mm */; };
 		074D4AFE2240E95700EB9304 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 074D4AFC2240E95700EB9304 /* Main.storyboard */; };
 		074D4B002240E95700EB9304 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 074D4AFF2240E95700EB9304 /* Assets.xcassets */; };
 		074D4B032240E95700EB9304 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 074D4B012240E95700EB9304 /* LaunchScreen.storyboard */; };
 		074D4B062240E95700EB9304 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 074D4B052240E95700EB9304 /* main.m */; };
 		074D4B162240EC3F00EB9304 /* libStarfall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 074D4B112240EC1D00EB9304 /* libStarfall.a */; };
 		074D4B172240EC3F00EB9304 /* libStarfall.a in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 074D4B112240EC1D00EB9304 /* libStarfall.a */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		077AF93C22646EC500DB0468 /* EntryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 077AF93B22646EC500DB0468 /* EntryViewController.m */; };
 		07C82DCF22488C7300111FF0 /* Resource in Resources */ = {isa = PBXBuildFile; fileRef = 07C82DCE22488C7200111FF0 /* Resource */; };
 /* End PBXBuildFile section */
 
@@ -55,14 +56,16 @@
 		074D4AF32240E95700EB9304 /* StarfallExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StarfallExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		074D4AF62240E95700EB9304 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		074D4AF72240E95700EB9304 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		074D4AF92240E95700EB9304 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		074D4AFA2240E95700EB9304 /* ViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
+		074D4AF92240E95700EB9304 /* RenderViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RenderViewController.h; sourceTree = "<group>"; };
+		074D4AFA2240E95700EB9304 /* RenderViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RenderViewController.mm; sourceTree = "<group>"; };
 		074D4AFD2240E95700EB9304 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		074D4AFF2240E95700EB9304 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		074D4B022240E95700EB9304 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		074D4B042240E95700EB9304 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		074D4B052240E95700EB9304 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		074D4B0C2240EC1D00EB9304 /* Starfall.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Starfall.xcodeproj; path = ../../../Project/iOS/Starfall.xcodeproj; sourceTree = "<group>"; };
+		077AF93A22646EC500DB0468 /* EntryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EntryViewController.h; sourceTree = "<group>"; };
+		077AF93B22646EC500DB0468 /* EntryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EntryViewController.m; sourceTree = "<group>"; };
 		07C82DCE22488C7200111FF0 /* Resource */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Resource; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,13 +106,15 @@
 				074D4B0C2240EC1D00EB9304 /* Starfall.xcodeproj */,
 				074D4AF62240E95700EB9304 /* AppDelegate.h */,
 				074D4AF72240E95700EB9304 /* AppDelegate.m */,
-				074D4AF92240E95700EB9304 /* ViewController.h */,
-				074D4AFA2240E95700EB9304 /* ViewController.mm */,
+				074D4AF92240E95700EB9304 /* RenderViewController.h */,
+				074D4AFA2240E95700EB9304 /* RenderViewController.mm */,
 				074D4AFC2240E95700EB9304 /* Main.storyboard */,
 				074D4AFF2240E95700EB9304 /* Assets.xcassets */,
 				074D4B012240E95700EB9304 /* LaunchScreen.storyboard */,
 				074D4B042240E95700EB9304 /* Info.plist */,
 				074D4B052240E95700EB9304 /* main.m */,
+				077AF93A22646EC500DB0468 /* EntryViewController.h */,
+				077AF93B22646EC500DB0468 /* EntryViewController.m */,
 			);
 			path = StarfallExample;
 			sourceTree = "<group>";
@@ -219,7 +224,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				074D4AFB2240E95700EB9304 /* ViewController.mm in Sources */,
+				074D4AFB2240E95700EB9304 /* RenderViewController.mm in Sources */,
+				077AF93C22646EC500DB0468 /* EntryViewController.m in Sources */,
 				074D4B062240E95700EB9304 /* main.m in Sources */,
 				074D4AF82240E95700EB9304 /* AppDelegate.m in Sources */,
 			);
