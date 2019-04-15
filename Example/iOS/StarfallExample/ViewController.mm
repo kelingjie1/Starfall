@@ -10,6 +10,12 @@
 #import <GLKit/GLKit.h>
 #import "ObjectiveGL.h"
 #import "Starfall.h"
+#import <glm/glm.hpp>
+#import <glm/ext/matrix_transform.hpp>
+#import <glm/ext/matrix_clip_space.hpp>
+#import <glm/ext/scalar_constants.hpp>
+#import <glm/gtc/type_ptr.hpp>
+
 using namespace ObjectiveGL;
 using namespace Starfall;
 
@@ -38,7 +44,8 @@ using namespace Starfall;
     self.preferredFramesPerSecond = 60;
     SFParticleConfig config;
     config.maxParticleCount = 100000;
-    config.useTriangleRenderer = true;
+//    config.usePointRenderer = true;
+//    config.pointRenderScale = 4.0;
     //config.useDefferredRendering = true;
     config.screenSize = make_pair(self.view.bounds.size.width*UIScreen.mainScreen.scale, self.view.bounds.size.height*UIScreen.mainScreen.scale);
     particleSystem = make_shared<SFParticleSystem>();
@@ -50,6 +57,15 @@ using namespace Starfall;
     auto texture = GLPlatform::createTextureFromFile([path cStringUsingEncoding:NSUTF8StringEncoding]);
     
     particleSystem->addParticle([str cStringUsingEncoding:NSUTF8StringEncoding], texture);
+    
+    auto projection = glm::perspective(glm::pi<float>()*0.25f, (float)(self.view.bounds.size.width/self.view.bounds.size.height), 0.1f, 1000.f);
+    auto view = glm::lookAt(glm::vec3(180,200,0), glm::vec3(0,0,0), glm::vec3(0,1,0));
+    auto vp = projection*view;
+    auto ptr = glm::value_ptr(vp);
+    auto point = glm::vec4(0,0,0,1);
+    auto result = vp*point;
+    vector<float> matrix(ptr,ptr+16);
+    particleSystem->setTransformMatrix(matrix);
 }
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect {

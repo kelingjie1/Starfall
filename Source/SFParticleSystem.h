@@ -21,7 +21,8 @@ namespace Starfall {
     {
     public:
         int maxParticleCount;
-        bool useTriangleRenderer;
+        bool usePointRenderer;
+        float pointRenderScale = 4.0;
         bool useDefferredRendering;
         pair<GLfloat, GLfloat> screenSize;
     };

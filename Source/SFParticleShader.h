@@ -66,6 +66,8 @@ namespace Starfall {
      layout(location = 4) in float textureIndex;
      layout(location = 5) in vec4 rect;
      layout(location = 6) in vec2 sincos;
+     
+     uniform float scale;
 
      out vec2 fs_sincos;
      out float fs_textureIndex;
@@ -82,7 +84,7 @@ namespace Starfall {
              return;
          }
          gl_Position = position;
-         gl_PointSize = size/position.w/2.0*1.414;
+         gl_PointSize = size/position.w*2.0*scale*1.414;
          
          fs_sincos = sincos;
          fs_textureIndex = textureIndex;
@@ -226,8 +228,15 @@ namespace Starfall {
          type2 = type;
          type3 = type;
          
-         float of = size/position.w/2.0;
-         vec2 offset = vec2(of/screenSize.x,of/screenSize.y);
+         vec2 offset;
+         if (position.w>1.0) {
+             float scale = screenSize.x/screenSize.y;
+             offset = vec2(size*scale/position.w,size/position.w);
+         }
+         else {
+             offset = vec2(size/2.0/screenSize.x,size/2.0/screenSize.y);
+         }
+         
          position0 = position+vec4(rotate(offset,-PI_2-rotation),0.0,0.0);
          position1 = position+vec4(rotate(offset,-rotation),0.0,0.0);
          position2 = position+vec4(rotate(offset,PI_2-rotation),0.0,0.0);
@@ -247,7 +256,6 @@ namespace Starfall {
          uv1 = vec2(rect.x+rect.z,1.0-(rect.y+rect.w));
          uv2 = vec2(rect.x+rect.z,1.0-rect.y);
          uv3 = vec2(rect.x,1.0-rect.y);
-         
      }
      );
     

@@ -52,7 +52,7 @@ void SFParticleSystem::setup(SFParticleConfig config)
     
     
     tbo = GLBuffer::create();
-    if (!config.useTriangleRenderer) {
+    if (config.usePointRenderer) {
         tbo->alloc(sizeof(SFParticlePointNode),config.maxParticleCount);
     }
     else {
@@ -65,7 +65,7 @@ void SFParticleSystem::setup(SFParticleConfig config)
     
     ebo = GLBuffer::create();
     
-    if (!config.useTriangleRenderer) {
+    if (config.usePointRenderer) {
         ebo->alloc(sizeof(GLuint),config.maxParticleCount);
         ebo->accessData([=](void *pointer){
             auto indexs = static_cast<GLuint*>(pointer);
@@ -103,7 +103,7 @@ void SFParticleSystem::setup(SFParticleConfig config)
     renderVAO->setBuffer(GL_ARRAY_BUFFER,tbo);
     renderVAO->setBuffer(GL_ELEMENT_ARRAY_BUFFER,ebo);
     renderVAO->setElementBufferType(GL_UNSIGNED_INT);
-    if (!config.useTriangleRenderer) {
+    if (config.usePointRenderer) {
         renderVAO->setDrawMode(GL_POINTS);
         renderVAO->setParams(SFParticlePointNode::getLayout());
     }
@@ -115,8 +115,9 @@ void SFParticleSystem::setup(SFParticleConfig config)
     
     
     renderProgram = GLProgram::create();
-    if (!config.useTriangleRenderer) {
+    if (config.usePointRenderer) {
         renderProgram->setRenderShader(ParticlePointVertexShader, ParticlePointFragmentShader);
+        renderProgram->setUniform("scale", config.pointRenderScale);
     }
     else {
         renderProgram->setRenderShader(ParticleTriangleVertexShader, ParticleTriangleFragmentShader);
@@ -203,7 +204,7 @@ void SFParticleSystem::update(double deltaTime)
             textures[i] = particleTemplates[i].second;
         }
         
-        if (!config.useTriangleRenderer) {
+        if (config.usePointRenderer) {
             computeVertexShader = ParticlePointComputeShader;
         }
         else {
@@ -212,7 +213,7 @@ void SFParticleSystem::update(double deltaTime)
         auto it = computeVertexShader.find("@");
         computeVertexShader.replace(it, 1, ss.str());
         computeProgram = GLProgram::create();
-        if (!config.useTriangleRenderer) {
+        if (config.usePointRenderer) {
             computeProgram->setTransformFeedbackShader(computeVertexShader,
                                                        {"type","position","size","color","textureIndex","rect","sincos"});
         }

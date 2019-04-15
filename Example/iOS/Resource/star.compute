@@ -1,6 +1,9 @@
-position = vec4(sin(time/4.0+rand.x)/2.0,cos(time/4.0+rand.z)/2.0,0.0,1.0);
-size = 100.0;
+float pi = 3.1415926;
+float y = rand.y*100.0;
+float r = y/1.2+rand.w*20.0;
+position = transformMatrix*vec4(sin(time/4.0+rand.x*2.0*pi)*r,rand.y*100.0,cos(time/4.0+rand.x*2.0*pi)*r,1.0);
+size = 500.0;
 color = vec4(1.0,1.0,1.0,1.0);
 textureIndex = 1.0;
-rotation = time;
+rotation = time+rand.z*2.0*pi;
 rect = vec4(0.0,0.0,100.0/1024.0,100.0/1024.0);
