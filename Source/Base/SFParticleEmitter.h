@@ -13,6 +13,7 @@ namespace Starfall {
     class SFParticleSystem;
     class SFParticleEmitter {
     public:
-        virtual void update(SFParticleSystem *system, SFParticleObject *object, GLuint *indexs, int count);
+        virtual void init(SFParticleSystem *system, SFParticleObject *object, GLuint *indexs, int count) {}
+        virtual void update(SFParticleSystem *system, SFParticleObject *object, GLuint *indexs, int count) {}
     };
 }

@@ -1,0 +1,12 @@
+float pi = 3.1415926;
+float v = 100.0;
+vec2 dir = vec2(sin(rand.x*2.0*pi),cos(rand.x*2.0*pi));
+float a = -9.8;
+float y = v+0.5*a*time*time;
+float speed = 10.0;
+position = transformMatrix*vec4(dir.x*speed,y,dir.y*speed,1.0);
+size = 500.0;
+color = vec4(1.0,1.0,1.0,1.0);
+textureIndex = 1.0;
+rotation = 0.0;
+rect = vec4(0.0,0.0,1.0,1.0);

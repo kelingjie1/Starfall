@@ -6,9 +6,12 @@
 //  Copyright © 2019 Starfall. All rights reserved.
 //
 
-#ifndef SFParticleUtil_hpp
-#define SFParticleUtil_hpp
+#pragma once
 
-#include <stdio.h>
+#include <list>
+#include <vector>
+#include <functional>
+namespace Starfall {
+    using namespace std;
+}
 
-#endif /* SFParticleUtil_hpp */

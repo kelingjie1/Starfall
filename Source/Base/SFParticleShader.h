@@ -210,11 +210,10 @@ namespace Starfall {
          position = vec4(0.0);
          size = 0.0;
          color = vec4(1.0);
-         textureIndex = 1.0;
+         textureIndex = 0.0;
          rotation = 0.0;
          rect = vec4(0.0,0.0,1.0,1.0);
          if (time>=life) {
-             type = 0.0;
              return;
          }
          @
@@ -222,6 +221,14 @@ namespace Starfall {
              position = transformMatrix*position;
          }
          
+         float limit = position.w*1.1;
+         if (position.x<-limit||position.x>limit||position.y<-limit||position.y>limit) {
+             textureIndex0 = 0.0;
+             textureIndex1 = 0.0;
+             textureIndex2 = 0.0;
+             textureIndex3 = 0.0;
+             return;
+         }
          
          type0 = type;
          type1 = type;
@@ -256,6 +263,7 @@ namespace Starfall {
          uv1 = vec2(rect.x+rect.z,1.0-(rect.y+rect.w));
          uv2 = vec2(rect.x+rect.z,1.0-rect.y);
          uv3 = vec2(rect.x,1.0-rect.y);
+         
      }
      );
     

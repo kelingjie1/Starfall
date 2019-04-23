@@ -1,0 +1,7 @@
+maxParticleCount:100000
+particles:water.compute
+textures:water.png
+rotationX:0
+rotationY:-0.7
+scale:200
+
