@@ -74,9 +74,7 @@ using namespace Starfall;
 }
 
 - (void)updateMatrix {
-    camera->setPositionOrbit(self.rx+self.rxoffset, self.ry+self.ryoffset, self.distance+self.distanceOffset);
-    glm::vec4 point(0,0,0,1);
-    auto result = point*glm::make_mat4(camera->getVPMatrix().data());
+    camera->setPositionOrbit(self.rx+self.rxoffset, self.ry+self.ryoffset, self.distance*self.distanceOffset);
     particleSystem->setTransformMatrix(camera->getVPMatrix());
 }
 

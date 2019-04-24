@@ -34,7 +34,7 @@ void SFCamera::setPerspective(float fovy, float aspect, float zNear, float zFar)
 vector<float> SFCamera::getVPMatrix() {
     if (changed) {
         mat4 proj = make_mat4(projectionMatrix.data());
-        mat4 view = lookAt(vec3(lookAtX,lookAtY,lookAtZ), vec3(posX,posY,posZ), vec3(upX,upY,upZ));
+        mat4 view = lookAt(vec3(posX,posY,posZ), vec3(lookAtX,lookAtY,lookAtZ), vec3(upX,upY,upZ));
         auto matrix = proj*view;
         auto ptr = value_ptr(matrix);
         vpMatrix = vector<float>(ptr,ptr+16);
