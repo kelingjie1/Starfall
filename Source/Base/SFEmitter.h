@@ -13,7 +13,7 @@ namespace Starfall {
     class SFSystem;
     class SFEmitter {
     public:
-        virtual void init(SFSystem *system, SFObject *object, GLuint *indexs, int count) {}
-        virtual void update(SFSystem *system, SFObject *object, GLuint *indexs, int count) {}
+        virtual void init(SFSystem *system, SFObject *objects, GLuint *indexs, int count) {}
+        virtual void update(SFSystem *system, SFObject *objects, GLuint *indexs, int count) {}
     };
 }

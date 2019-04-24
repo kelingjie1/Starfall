@@ -12,6 +12,7 @@
 #include <sstream>
 #include "../Base/SFSystem.h"
 #include "../Camera/SFCamera.h"
+#include "../Emitter/SFFillEmitter.h"
 
 using namespace Starfall;
 using namespace rapidjson;
@@ -55,6 +56,13 @@ shared_ptr<SFSystem> SFParser::parsePath(string path,int screenWidth,int screenH
         string particleStr(begin,end);
         
         particleSystem->addParticle(particleStr, texture);
+    }
+    auto &emitters = d["emitters"];
+    for (auto &emitter:emitters.GetArray()) {
+        string name = emitter["name"].GetString();
+        if (name == "SFFillEmitter") {
+            particleSystem->addEmiter(SFFillEmitter::create());
+        }
     }
     if (d.HasMember("camera")) {
         auto &camera = d["camera"];

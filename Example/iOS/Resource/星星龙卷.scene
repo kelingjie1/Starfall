@@ -11,6 +11,12 @@
 	[
 		"star.png"
 	],
+	"emitters":
+	[
+		{
+			"name":"SFFillEmitter"
+		}
+	],
 	"camera":
 	{
 		"position": 

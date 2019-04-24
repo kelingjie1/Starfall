@@ -15,9 +15,6 @@
 #include "SFNode.h"
 #include "SFShader.h"
 #include "SFEmitter.h"
-
-#define TEST
-
 namespace Starfall {
     using namespace std;
     using namespace ObjectiveGL;
@@ -76,21 +73,6 @@ namespace Starfall {
             vbo->accessData([=](void *pointer){
                 auto objects = static_cast<SFObject*>(pointer);
                 memset(objects, 0, vbo->size);
-                for (int i=0; i<vbo->count; i++) {
-                    for (int j=0; j<4; j++) {
-                        objects[i].rand[j] = rand()%1000/1000.0;
-#ifdef TEST
-                        objects[i].tmp = 1;
-                        objects[i].time = 0;
-                        objects[i].life = 100;
-#endif
-                    }
-                    //#ifdef TEST
-                    //            objects[0].tmp = 1;
-                    //            objects[0].time = 0;
-                    //            objects[0].life = 10;
-                    //#endif
-                }
             });
             
             
@@ -273,29 +255,40 @@ namespace Starfall {
                 if (config.useDefferredRendering) {
                     defferredProgram->setTextures("textures", textures);
                 }
+                auto objects = static_cast<SFObject*>(vbo->lock());
+                auto indexs = static_cast<GLuint*>(ebo->lock());
                 
+                for(auto &emiter:emitters) {
+                    emiter->init(this, objects, indexs,config.maxParticleCount);
+                }
+                
+                ebo->unlock();
+                vbo->unlock();
+            }
+            else {
+                auto objects = static_cast<SFObject*>(vbo->lock());
+                auto indexs = static_cast<GLuint*>(ebo->lock());
+                
+                for (int i=0; i<vbo->count; i++) {
+                    objects[i].time += deltaTime;
+                }
+                
+                for(auto &emiter:emitters) {
+                    emiter->update(this, objects, indexs,config.maxParticleCount);
+                }
+                
+                ebo->unlock();
+                vbo->unlock();
             }
             computeProgram->setUniformMatrix("transformMatrix", transformMatrix);
             
-            auto objects = static_cast<SFObject*>(vbo->lock());
-            auto indexs = static_cast<GLuint*>(ebo->lock());
             
-            for (int i=0; i<vbo->count; i++) {
-                objects[i].time += deltaTime;
-            }
-            
-            for(auto &emiter:emitters) {
-                emiter->update(this, objects, indexs,config.maxParticleCount);
-            }
-            
-            ebo->unlock();
-            vbo->unlock();
             
             
             computeVAO->computeUsingTransformFeedback(computeProgram);
             
             auto nodes = static_cast<SFTriangleNode*>(tbo->lock());
-            indexs = static_cast<GLuint*>(ebo->lock());
+            auto indexs = static_cast<GLuint*>(ebo->lock());
             //
             //    int count = 0;
             //    for (int i=0; i<vbo->count; i++) {
