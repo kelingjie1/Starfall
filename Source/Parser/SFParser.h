@@ -1,5 +1,5 @@
 //
-//  SFParticleParser.h
+//  SFParser.h
 //  Starfall
 //
 //  Created by lingtonke on 2019/4/23.
@@ -9,14 +9,15 @@
 #pragma once
 #include <string>
 #include <memory>
-#include "../Base/SFParticleEmitter.h"
+#include "../Base/SFEmitter.h"
+#include "../Camera/SFCamera.h"
 
 namespace Starfall {
     using namespace std;
-    class SFParticleParser
+    class SFParser
     {
     public:
-        static shared_ptr<SFParticleSystem> parsePath(string path,int screenWidth,int screenHeight);
+        static shared_ptr<SFSystem> parsePath(string path,int screenWidth,int screenHeight,shared_ptr<SFCamera> *cameraout = nullptr);
     };
 }
 

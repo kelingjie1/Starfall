@@ -8,8 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0742D67B2244914600324C01 /* GLPlatform.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0742D6782244902600324C01 /* GLPlatform.mm */; };
-		074AEF14226EC20700AF6619 /* SFParticleUtil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 074AEF0D226EC16F00AF6619 /* SFParticleUtil.cpp */; };
-		074AEF19226F044B00AF6619 /* SFParticleParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 074AEF18226F044B00AF6619 /* SFParticleParser.cpp */; };
+		074AEF19226F044B00AF6619 /* SFParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 074AEF18226F044B00AF6619 /* SFParser.cpp */; };
 		074AEF1D226F2EA800AF6619 /* SFCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 074AEF1B226F2EA800AF6619 /* SFCamera.cpp */; };
 /* End PBXBuildFile section */
 
@@ -43,14 +42,12 @@
 		074AEF02226EC16E00AF6619 /* SFNormalEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFNormalEmitter.h; sourceTree = "<group>"; };
 		074AEF03226EC16E00AF6619 /* SFFillEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFFillEmitter.h; sourceTree = "<group>"; };
 		074AEF04226EC16E00AF6619 /* Starfall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Starfall.h; sourceTree = "<group>"; };
-		074AEF08226EC16E00AF6619 /* SFParticleSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFParticleSystem.h; sourceTree = "<group>"; };
-		074AEF09226EC16F00AF6619 /* SFParticleNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFParticleNode.h; sourceTree = "<group>"; };
-		074AEF0C226EC16F00AF6619 /* SFParticleUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFParticleUtil.h; sourceTree = "<group>"; };
-		074AEF0D226EC16F00AF6619 /* SFParticleUtil.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SFParticleUtil.cpp; sourceTree = "<group>"; };
-		074AEF0F226EC16F00AF6619 /* SFParticleEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFParticleEmitter.h; sourceTree = "<group>"; };
-		074AEF11226EC16F00AF6619 /* SFParticleShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFParticleShader.h; sourceTree = "<group>"; };
-		074AEF17226EF02900AF6619 /* SFParticleParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFParticleParser.h; sourceTree = "<group>"; };
-		074AEF18226F044B00AF6619 /* SFParticleParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SFParticleParser.cpp; sourceTree = "<group>"; };
+		074AEF08226EC16E00AF6619 /* SFSystem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFSystem.h; sourceTree = "<group>"; };
+		074AEF09226EC16F00AF6619 /* SFNode.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFNode.h; sourceTree = "<group>"; };
+		074AEF0F226EC16F00AF6619 /* SFEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFEmitter.h; sourceTree = "<group>"; };
+		074AEF11226EC16F00AF6619 /* SFShader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFShader.h; sourceTree = "<group>"; };
+		074AEF17226EF02900AF6619 /* SFParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFParser.h; sourceTree = "<group>"; };
+		074AEF18226F044B00AF6619 /* SFParser.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SFParser.cpp; sourceTree = "<group>"; };
 		074AEF1B226F2EA800AF6619 /* SFCamera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SFCamera.cpp; sourceTree = "<group>"; };
 		074AEF1C226F2EA800AF6619 /* SFCamera.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFCamera.h; sourceTree = "<group>"; };
 		074D4B3C2240EDAA00EB9304 /* libStarfall.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libStarfall.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -130,8 +127,8 @@
 		074AEF05226EC16E00AF6619 /* Parser */ = {
 			isa = PBXGroup;
 			children = (
-				074AEF17226EF02900AF6619 /* SFParticleParser.h */,
-				074AEF18226F044B00AF6619 /* SFParticleParser.cpp */,
+				074AEF17226EF02900AF6619 /* SFParser.h */,
+				074AEF18226F044B00AF6619 /* SFParser.cpp */,
 			);
 			path = Parser;
 			sourceTree = "<group>";
@@ -139,12 +136,10 @@
 		074AEF06226EC16E00AF6619 /* Base */ = {
 			isa = PBXGroup;
 			children = (
-				074AEF08226EC16E00AF6619 /* SFParticleSystem.h */,
-				074AEF09226EC16F00AF6619 /* SFParticleNode.h */,
-				074AEF0C226EC16F00AF6619 /* SFParticleUtil.h */,
-				074AEF0D226EC16F00AF6619 /* SFParticleUtil.cpp */,
-				074AEF0F226EC16F00AF6619 /* SFParticleEmitter.h */,
-				074AEF11226EC16F00AF6619 /* SFParticleShader.h */,
+				074AEF08226EC16E00AF6619 /* SFSystem.h */,
+				074AEF09226EC16F00AF6619 /* SFNode.h */,
+				074AEF0F226EC16F00AF6619 /* SFEmitter.h */,
+				074AEF11226EC16F00AF6619 /* SFShader.h */,
 			);
 			path = Base;
 			sourceTree = "<group>";
@@ -231,8 +226,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				074AEF19226F044B00AF6619 /* SFParticleParser.cpp in Sources */,
-				074AEF14226EC20700AF6619 /* SFParticleUtil.cpp in Sources */,
+				074AEF19226F044B00AF6619 /* SFParser.cpp in Sources */,
 				0742D67B2244914600324C01 /* GLPlatform.mm in Sources */,
 				074AEF1D226F2EA800AF6619 /* SFCamera.cpp in Sources */,
 			);

@@ -12,16 +12,16 @@
 #include <memory>
 #include <sstream>
 #include "ObjectiveGL.h"
-#include "SFParticleNode.h"
-#include "SFParticleShader.h"
-#include "SFParticleEmitter.h"
+#include "SFNode.h"
+#include "SFShader.h"
+#include "SFEmitter.h"
 
 #define TEST
 
 namespace Starfall {
     using namespace std;
     using namespace ObjectiveGL;
-    class SFParticleConfig
+    class SFConfig
     {
     public:
         int maxParticleCount;
@@ -31,10 +31,10 @@ namespace Starfall {
         bool sort;
         pair<GLfloat, GLfloat> screenSize;
     };
-    class SFParticleSystem
+    class SFSystem
     {
     protected:
-        SFParticleConfig config;
+        SFConfig config;
         shared_ptr<GLBuffer> vbo;
         shared_ptr<GLBuffer> tbo;
         shared_ptr<GLBuffer> ebo;
@@ -54,13 +54,13 @@ namespace Starfall {
         shared_ptr<GLFrameBuffer> defferredFramebuffer;
         
         string computeVertexShader;
-        vector<shared_ptr<SFParticleEmitter>> emitters;
+        vector<shared_ptr<SFEmitter>> emitters;
         vector<pair<string,shared_ptr<GLTexture>>> particleTemplates;
         vector<float> transformMatrix;
         
     public:
-        SFParticlePointNode *getNextUnusedNode();
-        void setup(SFParticleConfig config) {
+        SFPointNode *getNextUnusedNode();
+        void setup(SFConfig config) {
             this->config = config;
             auto context = GLContext::current();
             
@@ -72,9 +72,9 @@ namespace Starfall {
             };
             
             vbo = GLBuffer::create();
-            vbo->alloc(sizeof(SFParticleObject),config.maxParticleCount);
+            vbo->alloc(sizeof(SFObject),config.maxParticleCount);
             vbo->accessData([=](void *pointer){
-                auto objects = static_cast<SFParticleObject*>(pointer);
+                auto objects = static_cast<SFObject*>(pointer);
                 memset(objects, 0, vbo->size);
                 for (int i=0; i<vbo->count; i++) {
                     for (int j=0; j<4; j++) {
@@ -96,10 +96,10 @@ namespace Starfall {
             
             tbo = GLBuffer::create();
             if (config.usePointRenderer) {
-                tbo->alloc(sizeof(SFParticlePointNode),config.maxParticleCount);
+                tbo->alloc(sizeof(SFPointNode),config.maxParticleCount);
             }
             else {
-                tbo->alloc(sizeof(SFParticleTriangleNode),config.maxParticleCount*4);
+                tbo->alloc(sizeof(SFTriangleNode),config.maxParticleCount*4);
             }
             
             tbo->accessData([=](void *pointer){
@@ -140,7 +140,7 @@ namespace Starfall {
             computeVAO->setBuffer(GL_TRANSFORM_FEEDBACK_BUFFER, tbo);
             computeVAO->setElementBufferType(GL_UNSIGNED_INT);
             computeVAO->setDrawMode(GL_POINTS);
-            computeVAO->setParams(SFParticleObject::getLayout());
+            computeVAO->setParams(SFObject::getLayout());
             
             renderVAO = GLVertexArray::create();
             renderVAO->setBuffer(GL_ARRAY_BUFFER,tbo);
@@ -148,11 +148,11 @@ namespace Starfall {
             renderVAO->setElementBufferType(GL_UNSIGNED_INT);
             if (config.usePointRenderer) {
                 renderVAO->setDrawMode(GL_POINTS);
-                renderVAO->setParams(SFParticlePointNode::getLayout());
+                renderVAO->setParams(SFPointNode::getLayout());
             }
             else {
                 renderVAO->setDrawMode(GL_TRIANGLES);
-                renderVAO->setParams(SFParticleTriangleNode::getLayout());
+                renderVAO->setParams(SFTriangleNode::getLayout());
             }
             
             
@@ -177,9 +177,9 @@ namespace Starfall {
             
             if (config.useDefferredRendering) {
                 defferredVBO = GLBuffer::create();
-                defferredVBO->alloc(sizeof(SFParticleDefferredVertex),4);
+                defferredVBO->alloc(sizeof(SFDefferredVertex),4);
                 defferredVBO->accessData([=](void *pointer){
-                    auto vertex = static_cast<SFParticleDefferredVertex*>(pointer);
+                    auto vertex = static_cast<SFDefferredVertex*>(pointer);
                     vertex[0].position[0] = -1;
                     vertex[0].position[1] = 1;
                     vertex[0].uv[0] = 0;
@@ -205,7 +205,7 @@ namespace Starfall {
                 defferredVAO = GLVertexArray::create();
                 defferredVAO->setBuffer(GL_ARRAY_BUFFER,defferredVBO);
                 defferredVAO->setDrawMode(GL_TRIANGLE_FAN);
-                defferredVAO->setParams(SFParticleDefferredVertex::getLayout());
+                defferredVAO->setParams(SFDefferredVertex::getLayout());
                 
                 defferredTexture = GLTexture::create();
                 defferredTexture->setImageData(nullptr, config.screenSize.first, config.screenSize.second);
@@ -225,7 +225,7 @@ namespace Starfall {
             computeProgram = nullptr;
         }
         
-        void addEmiter(shared_ptr<SFParticleEmitter> emitter) {
+        void addEmiter(shared_ptr<SFEmitter> emitter) {
             emitters.push_back(emitter);
         }
         
@@ -277,7 +277,7 @@ namespace Starfall {
             }
             computeProgram->setUniformMatrix("transformMatrix", transformMatrix);
             
-            auto objects = static_cast<SFParticleObject*>(vbo->lock());
+            auto objects = static_cast<SFObject*>(vbo->lock());
             auto indexs = static_cast<GLuint*>(ebo->lock());
             
             for (int i=0; i<vbo->count; i++) {
@@ -294,7 +294,7 @@ namespace Starfall {
             
             computeVAO->computeUsingTransformFeedback(computeProgram);
             
-            auto nodes = static_cast<SFParticleTriangleNode*>(tbo->lock());
+            auto nodes = static_cast<SFTriangleNode*>(tbo->lock());
             indexs = static_cast<GLuint*>(ebo->lock());
             //
             //    int count = 0;

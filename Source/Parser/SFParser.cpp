@@ -1,21 +1,22 @@
 //
-//  SFParticleParser.cpp
+//  SFParser.cpp
 //  Starfall
 //
 //  Created by lingtonke on 2019/4/23.
 //  Copyright © 2019 Starfall. All rights reserved.
 //
 
-#include "SFParticleParser.h"
+#include "SFParser.h"
 #include <rapidjson/document.h>
 #include <fstream>
 #include <sstream>
-#include "../Base/SFParticleSystem.h"
+#include "../Base/SFSystem.h"
+#include "../Camera/SFCamera.h"
 
 using namespace Starfall;
 using namespace rapidjson;
 
-shared_ptr<SFParticleSystem> SFParticleParser::parsePath(string path,int screenWidth,int screenHeight) {
+shared_ptr<SFSystem> SFParser::parsePath(string path,int screenWidth,int screenHeight,shared_ptr<SFCamera> *cameraout) {
     
     auto pos = path.find_last_of("/");
     auto dir = path.substr(0,pos);
@@ -26,7 +27,7 @@ shared_ptr<SFParticleSystem> SFParticleParser::parsePath(string path,int screenW
     Document d;
     d.Parse(json.c_str());
     auto &config = d["config"];
-    SFParticleConfig cfg;
+    SFConfig cfg;
     cfg.maxParticleCount = config["maxParticleCount"].GetInt();
     if (config.HasMember("usePointRenderer")) {
         cfg.usePointRenderer = config["usePointRenderer"].GetBool();
@@ -38,7 +39,7 @@ shared_ptr<SFParticleSystem> SFParticleParser::parsePath(string path,int screenW
         cfg.usePointRenderer = config["useDefferredRendering"].GetBool();
     }
     cfg.screenSize = make_pair(screenWidth, screenHeight);
-    auto particleSystem = make_shared<SFParticleSystem>();
+    auto particleSystem = make_shared<SFSystem>();
     particleSystem->setup(cfg);
     
     auto particles = d["particles"].GetArray();
@@ -55,7 +56,27 @@ shared_ptr<SFParticleSystem> SFParticleParser::parsePath(string path,int screenW
         
         particleSystem->addParticle(particleStr, texture);
     }
+    if (d.HasMember("camera")) {
+        auto &camera = d["camera"];
+        auto cam = SFCamera::create();
+        if (cameraout) {
+            *cameraout = cam;
+        }
+        cam->setPerspective(3.1415926*0.25, screenWidth/(float)screenHeight, 0.1, 1000);
+        if (camera.HasMember("lookAt")) {
+            auto &lookAt = camera["lookAt"];
+            cam->setLookAt(lookAt["x"].GetFloat(), lookAt["y"].GetFloat(), lookAt["z"].GetFloat());
+        }
+        if (camera.HasMember("position")) {
+            auto &position = camera["position"];
+            string type = position["type"].GetString();
+            if (type == "orbit") {
+                cam->setPositionOrbit(position["rotationX"].GetFloat(), position["rotationY"].GetFloat(), position["distance"].GetFloat());
+            }
+        }
+        particleSystem->setTransformMatrix(cam->getVPMatrix());
+    }
     
-    auto &extra = d["extra"];
+    
     return particleSystem;
 }

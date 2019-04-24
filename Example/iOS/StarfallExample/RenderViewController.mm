@@ -24,12 +24,13 @@ using namespace Starfall;
 {
     shared_ptr<GLContext> context;
     shared_ptr<GLFrameBuffer> framebuffer;
-    shared_ptr<SFParticleSystem> particleSystem;
+    shared_ptr<SFSystem> particleSystem;
+    shared_ptr<SFCamera> camera;
     NSDate *date;
 }
 @property (nonatomic) UILabel *label;
-@property (nonatomic) float scale;
-@property (nonatomic) float scaleOffset;
+@property (nonatomic) float distance;
+@property (nonatomic) float distanceOffset;
 @property (nonatomic) float rx;
 @property (nonatomic) float ry;
 @property (nonatomic) float rxoffset;
@@ -41,8 +42,8 @@ using namespace Starfall;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.scale = 200;
-    self.scaleOffset = 1;
+    self.distance = 200;
+    self.distanceOffset = 1;
     
     UITapGestureRecognizer *gr = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
     [self.view addGestureRecognizer:gr];
@@ -66,33 +67,17 @@ using namespace Starfall;
     NSString *path = [respath stringByAppendingPathComponent:self.name];
     NSDictionary *dic = [self configDic:path];
     
-    particleSystem = SFParticleParser::parsePath([path cStringUsingEncoding:NSUTF8StringEncoding], self.view.bounds.size.width*UIScreen.mainScreen.scale, self.view.bounds.size.height*UIScreen.mainScreen.scale);
-    
-    
-    self.rx = [dic[@"rotationX"] floatValue];
-    self.ry = [dic[@"rotationY"] floatValue];
-    self.scale = [dic[@"scale"] floatValue];
-    
-    [self updateMatrix];
+    particleSystem = SFParser::parsePath([path cStringUsingEncoding:NSUTF8StringEncoding], self.view.bounds.size.width*UIScreen.mainScreen.scale, self.view.bounds.size.height*UIScreen.mainScreen.scale,&camera);
+    self.rx = camera->getRotationX();
+    self.ry = camera->getRotationY();
+    self.distance = camera->getDistance();
 }
 
 - (void)updateMatrix {
-    glm::vec4 v(0,0,1,0);
-    glm::mat4 m(1);
-    m = glm::rotate(m, self.rx+self.rxoffset, glm::vec3(0,1,0));
-    m = glm::rotate(m, self.ry+self.ryoffset, glm::vec3(1,0,0));
-    v = m*v;
-    v *= self.scale*self.scaleOffset;
-    auto projection = glm::perspective(glm::pi<float>()*0.25f, (float)(self.view.bounds.size.width/self.view.bounds.size.height), 0.1f, 1000.f);
-    glm::vec3 eye(v.x,v.y,v.z);
-    auto view = glm::lookAt(eye, glm::vec3(0,0,0), glm::vec3(0,1,0));
-    auto vp = projection*view;
-    auto ptr = glm::value_ptr(vp);
-    auto point = glm::vec4(0,0,0,1);
-    auto result = vp*point;
-    vector<float> matrix(ptr,ptr+16);
-    particleSystem->setTransformMatrix(matrix);
-    NSLog(@"eye:%f,%f,%f",v.x,v.y,v.z);
+    camera->setPositionOrbit(self.rx+self.rxoffset, self.ry+self.ryoffset, self.distance+self.distanceOffset);
+    glm::vec4 point(0,0,0,1);
+    auto result = point*glm::make_mat4(camera->getVPMatrix().data());
+    particleSystem->setTransformMatrix(camera->getVPMatrix());
 }
 
 - (void)pan:(UIPanGestureRecognizer*)gr {
@@ -110,10 +95,10 @@ using namespace Starfall;
 }
 
 - (void)pinch:(UIPinchGestureRecognizer*)gr {
-    self.scaleOffset = 1/gr.scale;
+    self.distanceOffset = 1/gr.scale;
     if (gr.state == UIGestureRecognizerStateEnded) {
-        self.scale *= self.scaleOffset;
-        self.scaleOffset = 1;
+        self.distance *= self.distanceOffset;
+        self.distanceOffset = 1;
     }
     [self updateMatrix];
 }

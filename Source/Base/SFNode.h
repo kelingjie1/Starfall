@@ -1,5 +1,5 @@
 //
-//  SFParticleNode.hpp
+//  SFNode.hpp
 //  Starfall
 //
 //  Created by lingtonke on 2019/3/20.
@@ -14,7 +14,7 @@ namespace Starfall
 {
     using namespace std;
     using namespace ObjectiveGL;
-    class SFParticleObject {
+    class SFObject {
     public:
         GLfloat tmp;
         GLfloat time;
@@ -33,7 +33,7 @@ namespace Starfall
             return params;
         }
     };
-    class SFParticlePointNode
+    class SFPointNode
     {
     public:
         GLfloat type;
@@ -57,7 +57,7 @@ namespace Starfall
         }
     };
     
-    class SFParticleTriangleNode
+    class SFTriangleNode
     {
     public:
         GLfloat type;
@@ -77,7 +77,7 @@ namespace Starfall
         }
     };
     
-    class SFParticleDefferredVertex {
+    class SFDefferredVertex {
     public:
         GLfloat position[2];
         GLfloat uv[2];

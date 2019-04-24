@@ -7,15 +7,15 @@
 //
 
 #pragma once
-#include "../Base/SFParticleEmitter.h"
+#include "../Base/SFEmitter.h"
 namespace Starfall {
-    class SFFillEmitter : public SFParticleEmitter
+    class SFFillEmitter : public SFEmitter
     {
     public:
-        virtual void init(SFParticleSystem *system, SFParticleObject *object, GLuint *indexs, int count) {
+        virtual void init(SFSystem *system, SFObject *object, GLuint *indexs, int count) {
             
         }
-        virtual void update(SFParticleSystem *system, SFParticleObject *object, GLuint *indexs, int count) {
+        virtual void update(SFSystem *system, SFObject *object, GLuint *indexs, int count) {
             
         }
     };

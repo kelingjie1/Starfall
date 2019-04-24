@@ -8,6 +8,7 @@
 
 #pragma once
 #include <vector>
+#include <memory>
 namespace Starfall {
     using namespace std;
     class SFCamera
@@ -17,6 +18,10 @@ namespace Starfall {
         vector<float> vpMatrix;
         vector<float> viewMatrix;
         vector<float> projectionMatrix;
+        
+        float rotationX;
+        float rotationY;
+        float distance;
         
         float posX;
         float posY;
@@ -31,12 +36,16 @@ namespace Starfall {
         float upZ;
         
         SFCamera();
-    public:
-        vector<float> getMatrix();
-        void setPerspective(float fovy, float aspect, float zNear, float zFar);
         void setPosition(float x,float y,float z);
+    public:
+        static shared_ptr<SFCamera> create();
+        vector<float> getVPMatrix();
+        void setPerspective(float fovy, float aspect, float zNear, float zFar);
         void setLookAt(float x,float y,float z);
-        
         void setPositionOrbit(float rotationX,float rotationY,float distance);
+        
+        float getRotationX();
+        float getRotationY();
+        float getDistance();
     };
 }

@@ -6,12 +6,11 @@
 //  Copyright © 2019 Starfall. All rights reserved.
 //
 
-#include "./Base/SFParticleSystem.h"
-#include "./Base/SFParticleNode.h"
-#include "./Base/SFParticleUtil.h"
-#include "./Base/SFParticleShader.h"
+#include "./Base/SFSystem.h"
+#include "./Base/SFNode.h"
+#include "./Base/SFShader.h"
 
 #include "./Emitter/SFFillEmitter.h"
 #include "./Emitter/SFNormalEmitter.h"
 
-#include "./Parser/SFParticleParser.h"
+#include "./Parser/SFParser.h"

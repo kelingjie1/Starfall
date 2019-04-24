@@ -11,11 +11,16 @@
 	[
 		"star.png"
 	],
-	"extra":
+	"camera":
 	{
-		"rotationX":0,
-		"rotationY":-0.7,
-		"distance":200
+		"position": 
+		{
+			"type":"orbit",
+			"rotationX":0,
+			"rotationY":-0.7,
+			"distance":200
+		}
+		
 	}
 }
 
