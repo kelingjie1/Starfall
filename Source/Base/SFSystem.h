@@ -16,7 +16,7 @@
 #include "SFShader.h"
 #include "SFEmitter.h"
 
-#include <sys/time.h>
+#include <chrono>
 
 namespace Starfall {
     using namespace std;
@@ -62,34 +62,28 @@ namespace Starfall {
     
     class SFMonitor {
     protected:
-        float updateStartTime;
-        float renderStartTime;
+        chrono::steady_clock::time_point updateStartTime;
+        chrono::steady_clock::time_point renderStartTime;
     public:
         int particleCount;
         float updateCost;
         float renderCost;
         void startUpdate() {
-            timeval time;
-            gettimeofday(&time, nullptr);
-            updateStartTime = time.tv_usec/1000000.0;
+            updateStartTime = chrono::steady_clock::now();
         }
         
         void endUpdate() {
-            timeval time;
-            gettimeofday(&time, nullptr);
-            updateCost = time.tv_usec/1000000.0-updateStartTime;
+            auto now = chrono::steady_clock::now();
+            updateCost = chrono::duration_cast<chrono::microseconds>(now-updateStartTime).count()/1000000.0;
         }
         
         void startRender() {
-            timeval time;
-            gettimeofday(&time, nullptr);
-            renderStartTime = time.tv_usec/1000000.0;
+            renderStartTime = chrono::steady_clock::now();
         }
         
         void endRender() {
-            timeval time;
-            gettimeofday(&time, nullptr);
-            renderCost = time.tv_usec/1000000.0-renderStartTime;
+            auto now = chrono::steady_clock::now();
+            renderCost = chrono::duration_cast<chrono::microseconds>(now-updateStartTime).count()/1000000.0;
         }
     };
     
