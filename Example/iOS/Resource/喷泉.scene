@@ -1,7 +1,33 @@
-maxParticleCount:100000
-particles:water.compute
-textures:water.png
-rotationX:0
-rotationY:-0.7
-scale:200
+{
+	"config":
+	{
+		"maxParticleCount":100000
+	},
+	"particles":
+	[
+		"water.compute"
+	],
+	"textures":
+	[
+		"water.png"
+	],
+	"emitters":
+	[
+		{
+			"name":"SFNormalEmitter",
+			"emitRate":1000
+		}
+	],
+	"camera":
+	{
+		"position": 
+		{
+			"type":"orbit",
+			"rotationX":0,
+			"rotationY":-0.7,
+			"distance":200
+		}
+		
+	}
+}
 

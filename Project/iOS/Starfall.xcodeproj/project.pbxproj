@@ -118,8 +118,8 @@
 		074AEF01226EC16E00AF6619 /* Emitter */ = {
 			isa = PBXGroup;
 			children = (
-				074AEF02226EC16E00AF6619 /* SFNormalEmitter.h */,
 				074AEF03226EC16E00AF6619 /* SFFillEmitter.h */,
+				074AEF02226EC16E00AF6619 /* SFNormalEmitter.h */,
 			);
 			path = Emitter;
 			sourceTree = "<group>";

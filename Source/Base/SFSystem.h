@@ -15,6 +15,9 @@
 #include "SFNode.h"
 #include "SFShader.h"
 #include "SFEmitter.h"
+
+#include <sys/time.h>
+
 namespace Starfall {
     using namespace std;
     using namespace ObjectiveGL;
@@ -28,6 +31,68 @@ namespace Starfall {
         bool sort;
         pair<GLfloat, GLfloat> screenSize;
     };
+    
+    class SFSystemContext
+    {
+    protected:
+        int lastSearchIndex;
+    public:
+        float deltaTime;
+        int count;
+        SFObject *objects;
+        GLuint *indexes;
+        
+        int getUnusedIndex() {
+            for (int i=lastSearchIndex+1; i<count; i++) {
+                if (objects[i].time>=objects[i].life) {
+                    lastSearchIndex = i;
+                    return i;
+                }
+            }
+            
+            for (int i=0; i<lastSearchIndex; i++) {
+                if (objects[i].time>=objects[i].life) {
+                    lastSearchIndex = i;
+                    return i;
+                }
+            }
+            return -1;
+        }
+    };
+    
+    class SFMonitor {
+    protected:
+        float updateStartTime;
+        float renderStartTime;
+    public:
+        int particleCount;
+        float updateCost;
+        float renderCost;
+        void startUpdate() {
+            timeval time;
+            gettimeofday(&time, nullptr);
+            updateStartTime = time.tv_usec/1000000.0;
+        }
+        
+        void endUpdate() {
+            timeval time;
+            gettimeofday(&time, nullptr);
+            updateCost = time.tv_usec/1000000.0-updateStartTime;
+        }
+        
+        void startRender() {
+            timeval time;
+            gettimeofday(&time, nullptr);
+            renderStartTime = time.tv_usec/1000000.0;
+        }
+        
+        void endRender() {
+            timeval time;
+            gettimeofday(&time, nullptr);
+            renderCost = time.tv_usec/1000000.0-renderStartTime;
+        }
+    };
+    
     class SFSystem
     {
     protected:
@@ -55,10 +120,14 @@ namespace Starfall {
         vector<pair<string,shared_ptr<GLTexture>>> particleTemplates;
         vector<float> transformMatrix;
         
+        SFMonitor monitor;
+        
+        SFSystemContext context;
     public:
         SFPointNode *getNextUnusedNode();
         void setup(SFConfig config) {
             this->config = config;
+            this->context.count = config.maxParticleCount;
             auto context = GLContext::current();
             
             transformMatrix =
@@ -218,7 +287,18 @@ namespace Starfall {
             transformMatrix = matrix;
         }
         
+        const SFMonitor *const getMonitor() {
+            return &monitor;
+        }
+        
         void update(double deltaTime) {
+            
+            monitor.startUpdate();
+            
+            context.deltaTime = deltaTime;
+            context.objects = static_cast<SFObject*>(vbo->lock());
+            context.indexes = static_cast<GLuint*>(ebo->lock());
+            
             if (!computeProgram) {
                 stringstream ss;
                 vector<shared_ptr<GLTexture>> textures;
@@ -255,31 +335,32 @@ namespace Starfall {
                 if (config.useDefferredRendering) {
                     defferredProgram->setTextures("textures", textures);
                 }
-                auto objects = static_cast<SFObject*>(vbo->lock());
-                auto indexs = static_cast<GLuint*>(ebo->lock());
+                
                 
                 for(auto &emiter:emitters) {
-                    emiter->init(this, objects, indexs,config.maxParticleCount);
+                    emiter->init(&context);
                 }
                 
-                ebo->unlock();
-                vbo->unlock();
+                
             }
             else {
-                auto objects = static_cast<SFObject*>(vbo->lock());
-                auto indexs = static_cast<GLuint*>(ebo->lock());
-                
+                int count = 0;
                 for (int i=0; i<vbo->count; i++) {
-                    objects[i].time += deltaTime;
+                    auto &obj = context.objects[i];
+                    obj.time += deltaTime;
+                    if (obj.time>0 && obj.time<obj.life) {
+                        count++;
+                    }
                 }
+                monitor.particleCount = count;
                 
                 for(auto &emiter:emitters) {
-                    emiter->update(this, objects, indexs,config.maxParticleCount);
+                    emiter->update(&context);
                 }
-                
-                ebo->unlock();
-                vbo->unlock();
             }
+            
+            ebo->unlock();
+            vbo->unlock();
             computeProgram->setUniformMatrix("transformMatrix", transformMatrix);
             
             
@@ -306,9 +387,15 @@ namespace Starfall {
             //    renderVAO->setDrawCount(count*6);
             ebo->unlock();
             tbo->unlock();
+            
+            //glFinish();
+            monitor.endUpdate();
         }
         
         void render(shared_ptr<GLFrameBuffer> framebuffer) {
+            
+            monitor.startRender();
+            
             if (!config.useDefferredRendering) {
                 framebuffer->draw(renderProgram, renderVAO, drawOption);
             }
@@ -317,7 +404,9 @@ namespace Starfall {
                 defferredFramebuffer->draw(renderProgram, renderVAO, drawOption);
                 framebuffer->draw(defferredProgram, defferredVAO, drawOption);
             }
-            glFinish();
+            
+            //glFinish();
+            monitor.endRender();
         }
     };
 }

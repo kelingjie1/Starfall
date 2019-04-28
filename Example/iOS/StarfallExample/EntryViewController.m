@@ -21,6 +21,7 @@
     [super viewDidLoad];
     self.list = @[
                   @"星星龙卷",
+                  @"喷泉",
                   ];
 }
 

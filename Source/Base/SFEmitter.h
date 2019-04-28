@@ -11,9 +11,10 @@
 
 namespace Starfall {
     class SFSystem;
+    class SFSystemContext;
     class SFEmitter {
     public:
-        virtual void init(SFSystem *system, SFObject *objects, GLuint *indexs, int count) {}
-        virtual void update(SFSystem *system, SFObject *objects, GLuint *indexs, int count) {}
+        virtual void init(SFSystemContext *context) {}
+        virtual void update(SFSystemContext *context) {}
     };
 }

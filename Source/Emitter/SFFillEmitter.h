@@ -9,6 +9,7 @@
 #pragma once
 #include <memory>
 #include "../Base/SFEmitter.h"
+#include "../Base/SFSystem.h"
 namespace Starfall {
     using namespace std;
     class SFFillEmitter : public SFEmitter
@@ -18,17 +19,12 @@ namespace Starfall {
             return make_shared<SFFillEmitter>();
         }
         
-        virtual void init(SFSystem *system, SFObject *objects, GLuint *indexs, int count) {
-            for (int i=0; i<count; i++) {
-                for (int j=0; j<4; j++) {
-                    objects[i].rand[j] = rand()%1000/1000.0;
-                    objects[i].tmp = 1;
-                    objects[i].time = 0;
-                    objects[i].life = 999999;
-                }
+        virtual void init(SFSystemContext *context) {
+            for (int i=0; i<context->count; i++) {
+                context->objects[i].reset();
             }
         }
-        virtual void update(SFSystem *system, SFObject *objects, GLuint *indexs, int count) {
+        virtual void update(SFSystemContext *context) {
             
         }
     };

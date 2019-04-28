@@ -6,8 +6,38 @@
 //  Copyright © 2019 Starfall. All rights reserved.
 //
 
-#ifndef SFGravityEmitter_h
-#define SFGravityEmitter_h
+#pragma once
+#include <memory>
+#include "../Base/SFEmitter.h"
+#include "../Base/SFSystem.h"
+namespace Starfall {
+    using namespace std;
+    class SFNormalEmitter : public SFEmitter
+    {
+    protected:
+        float restTime;
+    public:
+        float emitRate;
+        static shared_ptr<SFNormalEmitter> create() {
+            return make_shared<SFNormalEmitter>();
+        }
+        
+        virtual void init(SFSystemContext *context) {
 
-
-#endif /* SFGravityEmitter_h */
+        }
+        virtual void update(SFSystemContext *context) {
+            float duration = 1/emitRate;
+            restTime += context->deltaTime;
+            int count = restTime/duration;
+            restTime -= count*duration;
+            for (int i=0;i<count;i++) {
+                auto index = context->getUnusedIndex();
+                if (index>=0) {
+                    context->objects[index].reset();
+                    context->objects[index].life = 10;
+                }
+            }
+            
+        }
+    };
+}

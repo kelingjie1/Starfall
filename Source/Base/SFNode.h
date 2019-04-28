@@ -22,6 +22,14 @@ namespace Starfall
         GLfloat frameIndex;
         GLfloat rand[4];
         GLfloat frameSize[2];
+        void reset() {
+            for (int j=0; j<4; j++) {
+                rand[j] = std::rand()%1000/1000.0;
+            }
+            tmp = 1;
+            time = 0;
+            life = 999999;
+        }
         static vector<GLVertexArrayParams> getLayout() {
             vector<GLVertexArrayParams> params;
             params.push_back(GLVertexArrayParams(GL_FLOAT));

@@ -44,7 +44,7 @@ namespace Starfall {
          color = vec4(1.0);
          textureIndex = 1.0;
          rotation = 0.0;
-         rect = vec4(0.0,0.0,100.0/1024.0,100.0/1024.0);
+         rect = vec4(0.0,0.0,1.0,1.0);
          if (time>=life) {
              type = 0.0;
          }
