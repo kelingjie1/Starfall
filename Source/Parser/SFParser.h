@@ -17,7 +17,7 @@ namespace Starfall {
     class SFParser
     {
     public:
-        static shared_ptr<SFSystem> parsePath(string path,int screenWidth,int screenHeight,shared_ptr<SFCamera> *cameraout = nullptr);
+        static shared_ptr<SFSystem> parsePath(string path,int screenWidth,int screenHeight,shared_ptr<SFCamera> *cameraout,function<shared_ptr<GLTexture>(string path)> textureReadFunc);
     };
 }
 

@@ -8,13 +8,15 @@
 
 #import "RenderViewController.h"
 #import <GLKit/GLKit.h>
-#import "ObjectiveGL.h"
+#import <ObjectiveGL/ObjectiveGL.h>
 #import "Starfall.h"
 #import <glm/glm.hpp>
 #import <glm/ext/matrix_transform.hpp>
 #import <glm/ext/matrix_clip_space.hpp>
 #import <glm/ext/scalar_constants.hpp>
 #import <glm/gtc/type_ptr.hpp>
+#import <ObjectiveGL/Platform/ios/GLIOSUtil.h>
+#import <ObjectiveGL/Platform/ios/GLIOSContext.h>
 
 
 using namespace ObjectiveGL;
@@ -59,7 +61,7 @@ using namespace Starfall;
     self.label.numberOfLines = 0;
     [self.view addSubview:self.label];
     date = [NSDate date];
-    context = GLContext::create();
+    context = GLIOSContext::create();
     context->setCurrent();
     EAGLContext *eaglcontext = [EAGLContext currentContext];
     ((GLKView*)self.view).context = eaglcontext;
@@ -70,7 +72,13 @@ using namespace Starfall;
 
     NSString *path = [respath stringByAppendingPathComponent:self.name];
     
-    particleSystem = SFParser::parsePath([path cStringUsingEncoding:NSUTF8StringEncoding], self.view.bounds.size.width*UIScreen.mainScreen.scale, self.view.bounds.size.height*UIScreen.mainScreen.scale,&camera);
+    particleSystem = SFParser::parsePath([path cStringUsingEncoding:NSUTF8StringEncoding],
+                                         self.view.bounds.size.width*UIScreen.mainScreen.scale,
+                                         self.view.bounds.size.height*UIScreen.mainScreen.scale,
+                                         &camera,
+                                         [=](string path)->shared_ptr<GLTexture> {
+                                             return GLIOSUtil::createTextureFromFile(path);
+                                         });
     self.rx = camera->getRotationX();
     self.ry = camera->getRotationY();
     self.distance = camera->getDistance();

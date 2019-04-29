@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0742D67B2244914600324C01 /* GLPlatform.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0742D6782244902600324C01 /* GLPlatform.mm */; };
 		074AEF19226F044B00AF6619 /* SFParser.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 074AEF18226F044B00AF6619 /* SFParser.cpp */; };
 		074AEF1D226F2EA800AF6619 /* SFCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 074AEF1B226F2EA800AF6619 /* SFCamera.cpp */; };
 /* End PBXBuildFile section */
@@ -25,20 +24,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0705E478226032E900EF9F85 /* GLCaps.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLCaps.h; path = ../../Library/ObjectiveGL/Source/GLCaps.h; sourceTree = "<group>"; };
-		0742D64A22410E3000324C01 /* GLObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLObject.h; path = ../../Library/ObjectiveGL/Source/GLObject.h; sourceTree = "<group>"; };
-		0742D64B22410E3000324C01 /* GLFrameBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLFrameBuffer.h; path = ../../Library/ObjectiveGL/Source/GLFrameBuffer.h; sourceTree = "<group>"; };
-		0742D64C22410E3000324C01 /* GLBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLBuffer.h; path = ../../Library/ObjectiveGL/Source/GLBuffer.h; sourceTree = "<group>"; };
-		0742D64D22410E3000324C01 /* GLProgram.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLProgram.h; path = ../../Library/ObjectiveGL/Source/GLProgram.h; sourceTree = "<group>"; };
-		0742D64E22410E3000324C01 /* GLRenderBuffer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLRenderBuffer.h; path = ../../Library/ObjectiveGL/Source/GLRenderBuffer.h; sourceTree = "<group>"; };
-		0742D64F22410E3000324C01 /* GLTexture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLTexture.h; path = ../../Library/ObjectiveGL/Source/GLTexture.h; sourceTree = "<group>"; };
-		0742D65022410E3000324C01 /* GLContext.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLContext.h; path = ../../Library/ObjectiveGL/Source/GLContext.h; sourceTree = "<group>"; };
-		0742D65122410E3000324C01 /* GLVertexArray.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLVertexArray.h; path = ../../Library/ObjectiveGL/Source/GLVertexArray.h; sourceTree = "<group>"; };
-		0742D6572241F40F00324C01 /* GLPlatform.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLPlatform.h; path = ../../Library/ObjectiveGL/Source/GLPlatform.h; sourceTree = "<group>"; };
-		0742D6582241F40F00324C01 /* GLError.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLError.h; path = ../../Library/ObjectiveGL/Source/GLError.h; sourceTree = "<group>"; };
-		0742D6592241F41000324C01 /* ObjectiveGL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = ObjectiveGL.h; path = ../../Library/ObjectiveGL/Source/ObjectiveGL.h; sourceTree = "<group>"; };
-		0742D65A2241F5A900324C01 /* GLUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = GLUtil.h; path = ../../Library/ObjectiveGL/Source/GLUtil.h; sourceTree = "<group>"; };
-		0742D6782244902600324C01 /* GLPlatform.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = GLPlatform.mm; sourceTree = "<group>"; };
 		074AEF02226EC16E00AF6619 /* SFNormalEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFNormalEmitter.h; sourceTree = "<group>"; };
 		074AEF03226EC16E00AF6619 /* SFFillEmitter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SFFillEmitter.h; sourceTree = "<group>"; };
 		074AEF04226EC16E00AF6619 /* Starfall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Starfall.h; sourceTree = "<group>"; };
@@ -64,44 +49,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0742D64122410DDD00324C01 /* ObjectiveGL */ = {
-			isa = PBXGroup;
-			children = (
-				0742D6762244902600324C01 /* Platform */,
-				0705E478226032E900EF9F85 /* GLCaps.h */,
-				0742D65022410E3000324C01 /* GLContext.h */,
-				0742D64A22410E3000324C01 /* GLObject.h */,
-				0742D64C22410E3000324C01 /* GLBuffer.h */,
-				0742D64B22410E3000324C01 /* GLFrameBuffer.h */,
-				0742D64D22410E3000324C01 /* GLProgram.h */,
-				0742D64E22410E3000324C01 /* GLRenderBuffer.h */,
-				0742D64F22410E3000324C01 /* GLTexture.h */,
-				0742D65122410E3000324C01 /* GLVertexArray.h */,
-				0742D6582241F40F00324C01 /* GLError.h */,
-				0742D6572241F40F00324C01 /* GLPlatform.h */,
-				0742D65A2241F5A900324C01 /* GLUtil.h */,
-				0742D6592241F41000324C01 /* ObjectiveGL.h */,
-			);
-			name = ObjectiveGL;
-			sourceTree = "<group>";
-		};
-		0742D6762244902600324C01 /* Platform */ = {
-			isa = PBXGroup;
-			children = (
-				0742D6772244902600324C01 /* ios */,
-			);
-			name = Platform;
-			path = ../../Library/ObjectiveGL/Source/Platform;
-			sourceTree = "<group>";
-		};
-		0742D6772244902600324C01 /* ios */ = {
-			isa = PBXGroup;
-			children = (
-				0742D6782244902600324C01 /* GLPlatform.mm */,
-			);
-			path = ios;
-			sourceTree = "<group>";
-		};
 		074AEF00226EC16E00AF6619 /* Source */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,7 +104,6 @@
 			isa = PBXGroup;
 			children = (
 				074AEF00226EC16E00AF6619 /* Source */,
-				0742D64122410DDD00324C01 /* ObjectiveGL */,
 				074D4AE02240E93D00EB9304 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -227,7 +173,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				074AEF19226F044B00AF6619 /* SFParser.cpp in Sources */,
-				0742D67B2244914600324C01 /* GLPlatform.mm in Sources */,
 				074AEF1D226F2EA800AF6619 /* SFCamera.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -364,7 +309,7 @@
 					GLES_SILENCE_DEPRECATION,
 				);
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../Library/ObjectiveGL/Source\"",
+					"\"$(SRCROOT)/../../Library/ObjectiveGL/include\"",
 					"\"$(SRCROOT)/../../Library/rapidjson/include\"",
 					"\"$(SRCROOT)/../../Library/glm\"",
 				);
@@ -385,7 +330,7 @@
 					GLES_SILENCE_DEPRECATION,
 				);
 				HEADER_SEARCH_PATHS = (
-					"\"$(SRCROOT)/../../Library/ObjectiveGL/Source\"",
+					"\"$(SRCROOT)/../../Library/ObjectiveGL/include\"",
 					"\"$(SRCROOT)/../../Library/rapidjson/include\"",
 					"\"$(SRCROOT)/../../Library/glm\"",
 				);

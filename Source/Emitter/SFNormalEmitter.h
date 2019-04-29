@@ -28,7 +28,7 @@ namespace Starfall {
         virtual void update(SFSystemContext *context) {
             float duration = 1/emitRate;
             restTime += context->deltaTime;
-            int count = restTime/duration;
+            int count = static_cast<int>(restTime/duration);
             restTime -= count*duration;
             for (int i=0;i<count;i++) {
                 auto index = context->getUnusedIndex();

@@ -28,7 +28,7 @@ CONFIG += c++11
 INCLUDEPATH += \
         Library/glm \
         Library/rapidjson/include \
-        Library/ObjectiveGL/Source
+        Library/ObjectiveGL/include
 
 
 

@@ -7,7 +7,7 @@
 //
 
 #pragma once
-#include "GLVertexArray.h"
+#include <ObjectiveGL/ObjectiveGL.h>
 #include <vector>
 
 namespace Starfall

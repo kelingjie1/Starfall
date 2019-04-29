@@ -16,5 +16,6 @@ namespace Starfall {
     public:
         virtual void init(SFSystemContext *context) {}
         virtual void update(SFSystemContext *context) {}
+        virtual ~SFEmitter() {}
     };
 }

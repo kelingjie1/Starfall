@@ -1,4 +1,5 @@
 #include "sfrenderview.h"
+#include "Source/Starfall.h"
 
 SFRenderView::SFRenderView(QWidget *parent) : QOpenGLWidget(parent)
 {

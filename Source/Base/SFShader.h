@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "GLProgram.h"
+#include <ObjectiveGL/ObjectiveGL.h>
 #include <string>
 
 namespace Starfall {

@@ -18,7 +18,7 @@
 using namespace Starfall;
 using namespace rapidjson;
 
-shared_ptr<SFSystem> SFParser::parsePath(string path,int screenWidth,int screenHeight,shared_ptr<SFCamera> *cameraout) {
+shared_ptr<SFSystem> SFParser::parsePath(string path,int screenWidth,int screenHeight,shared_ptr<SFCamera> *cameraout,function<shared_ptr<GLTexture>(string path)> textureReadFunc) {
     
     auto pos = path.find_last_of("/");
     auto dir = path.substr(0,pos);
@@ -47,10 +47,10 @@ shared_ptr<SFSystem> SFParser::parsePath(string path,int screenWidth,int screenH
     auto particles = d["particles"].GetArray();
     auto textures = d["textures"].GetArray();
     assert(particles.Size()==textures.Size());
-    for (int i=0; i<particles.Size(); i++) {
+    for (int i=0; i<(int)particles.Size(); i++) {
         auto texturePath = dir+"/"+textures[i].GetString();
         auto particlePath = dir+"/"+particles[i].GetString();
-        auto texture = GLPlatform::createTextureFromFile(texturePath);
+        auto texture = textureReadFunc(texturePath);
         
         ifstream f(particlePath);
         istreambuf_iterator<char> begin(f),end;
@@ -76,7 +76,7 @@ shared_ptr<SFSystem> SFParser::parsePath(string path,int screenWidth,int screenH
         if (cameraout) {
             *cameraout = cam;
         }
-        cam->setPerspective(3.1415926*0.25, screenWidth/(float)screenHeight, 0.1, 1000);
+        cam->setPerspective(3.1415926f*0.25f, screenWidth/(float)screenHeight, 0.1f, 1000.0f);
         if (camera.HasMember("lookAt")) {
             auto &lookAt = camera["lookAt"];
             cam->setLookAt(lookAt["x"].GetFloat(), lookAt["y"].GetFloat(), lookAt["z"].GetFloat());

@@ -11,7 +11,7 @@
 #include <string>
 #include <memory>
 #include <sstream>
-#include "ObjectiveGL.h"
+#include <ObjectiveGL/ObjectiveGL.h>
 #include "SFNode.h"
 #include "SFShader.h"
 #include "SFEmitter.h"
@@ -25,11 +25,12 @@ namespace Starfall {
     {
     public:
         int maxParticleCount;
+        float pointRenderScale = 4.0f;
+        pair<int, int> screenSize;
         bool usePointRenderer;
-        float pointRenderScale = 4.0;
         bool useDefferredRendering;
         bool sort;
-        pair<GLfloat, GLfloat> screenSize;
+
     };
     
     class SFSystemContext
@@ -74,7 +75,7 @@ namespace Starfall {
         
         void endUpdate() {
             auto now = chrono::steady_clock::now();
-            updateCost = chrono::duration_cast<chrono::microseconds>(now-updateStartTime).count()/1000000.0;
+            updateCost = chrono::duration_cast<chrono::microseconds>(now-updateStartTime).count()/1000000.0f;
         }
         
         void startRender() {
@@ -83,7 +84,7 @@ namespace Starfall {
         
         void endRender() {
             auto now = chrono::steady_clock::now();
-            renderCost = chrono::duration_cast<chrono::microseconds>(now-updateStartTime).count()/1000000.0;
+            renderCost = chrono::duration_cast<chrono::microseconds>(now-updateStartTime).count()/1000000.0f;
         }
     };
     
@@ -135,7 +136,7 @@ namespace Starfall {
             vbo->alloc(sizeof(SFObject),config.maxParticleCount);
             vbo->accessData([=](void *pointer){
                 auto objects = static_cast<SFObject*>(pointer);
-                memset(objects, 0, vbo->size);
+                memset(objects, 0, (size_t)vbo->size);
             });
             
             
@@ -166,8 +167,8 @@ namespace Starfall {
                 ebo->alloc(sizeof(GLuint),config.maxParticleCount*6);
                 ebo->accessData([=](void *pointer){
                     auto indexs = static_cast<GLuint*>(pointer);
-                    memset(pointer, 0, ebo->size);
-                    for (int i=0; i<config.maxParticleCount; i++) {
+                    memset(pointer, 0, (size_t)ebo->size);
+                    for (unsigned int i=0; i<(unsigned int)config.maxParticleCount; i++) {
                         indexs[i*6] = i*4;
                         indexs[i*6+1] = i*4+1;
                         indexs[i*6+2] = i*4+2;
@@ -281,7 +282,7 @@ namespace Starfall {
             transformMatrix = matrix;
         }
         
-        const SFMonitor *const getMonitor() {
+        const SFMonitor *getMonitor() {
             return &monitor;
         }
         
@@ -297,7 +298,7 @@ namespace Starfall {
                 stringstream ss;
                 vector<shared_ptr<GLTexture>> textures;
                 textures.resize(8);
-                for (int i=0;i<particleTemplates.size();i++) {
+                for (int i=0;i<(int)particleTemplates.size();i++) {
                     ss << "else if (tmp == "<<i+1<<".0)"<<"{"<<particleTemplates[i].first<<"}"<<endl;
                     textures[i] = particleTemplates[i].second;
                 }

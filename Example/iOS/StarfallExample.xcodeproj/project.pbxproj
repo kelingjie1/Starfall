@@ -387,7 +387,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../Library/glm/\"",
-					"\"$(SRCROOT)/../../Library/ObjectiveGL/Source/\"",
+					"\"$(SRCROOT)/../../Library/ObjectiveGL/include/\"",
 					"\"$(SRCROOT)/../../Source\"",
 				);
 				INFOPLIST_FILE = StarfallExample/Info.plist;
@@ -413,7 +413,7 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../../Library/glm/\"",
-					"\"$(SRCROOT)/../../Library/ObjectiveGL/Source/\"",
+					"\"$(SRCROOT)/../../Library/ObjectiveGL/include/\"",
 					"\"$(SRCROOT)/../../Source\"",
 				);
 				INFOPLIST_FILE = StarfallExample/Info.plist;
