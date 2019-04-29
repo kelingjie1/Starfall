@@ -35,10 +35,10 @@ shared_ptr<SFSystem> SFParser::parsePath(string path,int screenWidth,int screenH
         cfg.usePointRenderer = config["usePointRenderer"].GetBool();
     }
     if (config.HasMember("pointRenderScale")) {
-        cfg.usePointRenderer = config["pointRenderScale"].GetFloat();
+        cfg.pointRenderScale = config["pointRenderScale"].GetFloat();
     }
     if (config.HasMember("useDefferredRendering")) {
-        cfg.usePointRenderer = config["useDefferredRendering"].GetBool();
+        cfg.useDefferredRendering = config["useDefferredRendering"].GetBool();
     }
     cfg.screenSize = make_pair(screenWidth, screenHeight);
     auto particleSystem = make_shared<SFSystem>();
