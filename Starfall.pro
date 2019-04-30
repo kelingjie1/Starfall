@@ -56,6 +56,9 @@ FORMS += \
         QT/mainwindow.ui
 
 CONFIG += mobility
+
+TRANSLATIONS += QT/zh_cn.ts
+
 MOBILITY = 
 
 
