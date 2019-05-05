@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "pathwidget.h"
 
 namespace Ui {
 class MainWindow;
@@ -18,8 +19,13 @@ public:
 private slots:
     void on_categoryTabWidget_currentChanged(int index);
 
+    void on_addPathButton_clicked();
+
+    void on_pathWidget_deletePath(PathWidget *pathWidget);
+
 private:
     Ui::MainWindow *ui;
+    bool xPath,yPath,zPath;
 };
 
 #endif // MAINWINDOW_H

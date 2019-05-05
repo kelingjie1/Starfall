@@ -33,6 +33,8 @@ INCLUDEPATH += \
 
 
 SOURCES += \
+        QT/numbereditwidget.cpp \
+        QT/pathwidget.cpp \
         QT/sfrenderview.cpp \
         Source/Camera/SFCamera.cpp \
         Source/Parser/SFParser.cpp \
@@ -40,6 +42,8 @@ SOURCES += \
         QT/mainwindow.cpp
 
 HEADERS += \
+        QT/numbereditwidget.h \
+        QT/pathwidget.h \
         QT/sfrenderview.h \
         Source/Base/SFEmitter.h \
         Source/Base/SFNode.h \
@@ -53,7 +57,9 @@ HEADERS += \
         QT/mainwindow.h
 
 FORMS += \
-        QT/mainwindow.ui
+        QT/mainwindow.ui \
+        QT/numbereditwidget.ui \
+        QT/pathwidget.ui
 
 CONFIG += mobility
 
