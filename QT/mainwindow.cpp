@@ -3,6 +3,7 @@
 #include <QMessageBox>
 #include <QDebug>
 #include "pathwidget.h"
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -57,7 +58,7 @@ void MainWindow::on_addPathButton_clicked()
 
     PathWidget *pathWidget = new PathWidget(xChecked,yChecked,zChecked);
     ui->pathScrollArea->widget()->layout()->addWidget(pathWidget);
-   connect(pathWidget,SIGNAL(deletePath(PathWidget*)),this,SLOT(on_pathWidget_deletePath(PathWidget*)));
+    connect(pathWidget,SIGNAL(deletePath(PathWidget*)),this,SLOT(on_pathWidget_deletePath(PathWidget*)));
 }
 
 void MainWindow::on_pathWidget_deletePath(PathWidget *pathWidget)
@@ -68,4 +69,23 @@ void MainWindow::on_pathWidget_deletePath(PathWidget *pathWidget)
     disconnect(pathWidget,SIGNAL(deletePath(PathWidget*)),this,SLOT(on_pathWidget_deletePath(PathWidget*)));
     pathWidget->setParent(nullptr);
     delete pathWidget;
+}
+
+void MainWindow::on_actionnew_triggered() {
+    QFileDialog::getSaveFileName(nullptr,tr("create new project"),"","*.particleproj");
+}
+
+void MainWindow::on_actionopen_triggered()
+{
+    QFileDialog::getOpenFileName(nullptr,tr("open project"),"","*.particleproj");
+}
+
+void MainWindow::on_actionsave_triggered()
+{
+
+}
+
+void MainWindow::on_actionexport_triggered()
+{
+
 }

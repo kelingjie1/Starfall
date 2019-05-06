@@ -23,6 +23,14 @@ private slots:
 
     void on_pathWidget_deletePath(PathWidget *pathWidget);
 
+    void on_actionnew_triggered();
+
+    void on_actionopen_triggered();
+
+    void on_actionsave_triggered();
+
+    void on_actionexport_triggered();
+
 private:
     Ui::MainWindow *ui;
     bool xPath,yPath,zPath;
