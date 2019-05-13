@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include "pathwidget.h"
+#include "particlemodel.h"
+#include "Source/Starfall.h"
 
 namespace Ui {
 class MainWindow;
@@ -31,9 +33,27 @@ private slots:
 
     void on_actionexport_triggered();
 
+    void on_particleComboBox_currentIndexChanged(const QString &arg1);
+
+    void on_particleDeleteButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     bool xPath,yPath,zPath;
+    ParticleModel model;
+    QString projectPath;
+    QString previewPath;
+    QString currentParticle;
+    CameraModel getCameraModel();
+    void setCameraModel(CameraModel model);
+    ParticleParam getParticleParam();
+    void setParticleParam(ParticleParam param);
+    void saveModel();
+    void saveToFile();
+
+    std::shared_ptr<Starfall::SFSystem> system;
+    std::shared_ptr<Starfall::SFCamera> camera;
+    std::shared_ptr<ObjectiveGL::GLFrameBuffer> framebuffer;
 };
 
 #endif // MAINWINDOW_H

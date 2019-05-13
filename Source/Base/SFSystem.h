@@ -136,7 +136,8 @@ namespace Starfall {
             vbo->alloc(sizeof(SFObject),config.maxParticleCount);
             vbo->accessData([=](void *pointer){
                 auto objects = static_cast<SFObject*>(pointer);
-                memset(objects, 0, (size_t)vbo->size);
+                objects[0].reset();
+                memset(objects, 0, (size_t)this->vbo->size);
             });
             
             
@@ -149,7 +150,7 @@ namespace Starfall {
             }
             
             tbo->accessData([=](void *pointer){
-                memset(pointer, 0, tbo->size);
+                memset(pointer, 0, this->tbo->size);
             });
             
             ebo = GLBuffer::create();
@@ -158,7 +159,7 @@ namespace Starfall {
                 ebo->alloc(sizeof(GLuint),config.maxParticleCount);
                 ebo->accessData([=](void *pointer){
                     auto indexs = static_cast<GLuint*>(pointer);
-                    for (int i=0; i<ebo->count; i++) {
+                    for (int i=0; i<this->ebo->count; i++) {
                         indexs[i] = i;
                     }
                 });
@@ -167,7 +168,7 @@ namespace Starfall {
                 ebo->alloc(sizeof(GLuint),config.maxParticleCount*6);
                 ebo->accessData([=](void *pointer){
                     auto indexs = static_cast<GLuint*>(pointer);
-                    memset(pointer, 0, (size_t)ebo->size);
+                    memset(pointer, 0, (size_t)this->ebo->size);
                     for (unsigned int i=0; i<(unsigned int)config.maxParticleCount; i++) {
                         indexs[i*6] = i*4;
                         indexs[i*6+1] = i*4+1;

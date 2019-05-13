@@ -1,0 +1,481 @@
+{
+    "camera": {
+        "mode": "ndc",
+        "orthogonal": {
+            "bottom": 0,
+            "left": 0,
+            "right": 0,
+            "top": 0,
+            "zFar": 0,
+            "zNear": 0
+        },
+        "perspective": {
+            "aspect": 0,
+            "fovy": 0,
+            "zFar": 0,
+            "zNear": 0
+        }
+    },
+    "particles": [
+        {
+            "attribute": {
+                "height": {
+                    "circular": {
+                        "base": 0,
+                        "baseRand": 0,
+                        "radius": 0,
+                        "radiusRand": 0,
+                        "rate": 0,
+                        "rateRand": 0
+                    },
+                    "linear": {
+                        "acceleration": 0,
+                        "accelerationRand": 0,
+                        "base": 0,
+                        "baseRand": 0
+                    },
+                    "mode": "circular",
+                    "stable": {
+                        "base": 0,
+                        "rand": 0
+                    }
+                },
+                "rotation": {
+                    "circular": {
+                        "base": 0,
+                        "baseRand": 0,
+                        "radius": 0,
+                        "radiusRand": 0,
+                        "rate": 0,
+                        "rateRand": 0
+                    },
+                    "linear": {
+                        "acceleration": 0,
+                        "accelerationRand": 0,
+                        "base": 0,
+                        "baseRand": 0
+                    },
+                    "mode": "circular",
+                    "stable": {
+                        "base": 0,
+                        "rand": 0
+                    }
+                },
+                "width": {
+                    "circular": {
+                        "base": 0,
+                        "baseRand": 0,
+                        "radius": 0,
+                        "radiusRand": 0,
+                        "rate": 0,
+                        "rateRand": 0
+                    },
+                    "linear": {
+                        "acceleration": 0,
+                        "accelerationRand": 0,
+                        "base": 0,
+                        "baseRand": 0
+                    },
+                    "mode": "circular",
+                    "stable": {
+                        "base": 0,
+                        "rand": 0
+                    }
+                }
+            },
+            "display": {
+                "count": 22188240,
+                "fps": 6.95312995815965e-310,
+                "height": 2.1333054516e-314,
+                "image_name": "",
+                "mode": "forward",
+                "width": 2.133307981e-314
+            },
+            "name": "",
+            "path": [
+                {
+                    "path1D": {
+                        "custom": "",
+                        "linear": {
+                            "acceleration": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "speed": {
+                                "circular": {
+                                    "base": 2,
+                                    "baseRand": 0,
+                                    "radius": 3,
+                                    "radiusRand": 0,
+                                    "rate": 4,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "start_point": {
+                                "circular": {
+                                    "base": 1,
+                                    "baseRand": 0,
+                                    "radius": 2,
+                                    "radiusRand": 0,
+                                    "rate": 3,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            }
+                        },
+                        "mode": "linear"
+                    },
+                    "path2D": {
+                        "circular": {
+                            "circles": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "radius": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            }
+                        },
+                        "custom": "",
+                        "mode": "circular"
+                    },
+                    "path3D": {
+                        "custom": "",
+                        "mode": "spherical",
+                        "spherical": {
+                            "azimuth_angle": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "polar_angle": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "radius": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            }
+                        }
+                    },
+                    "x": true,
+                    "y": false,
+                    "z": false
+                },
+                {
+                    "path1D": {
+                        "custom": "",
+                        "linear": {
+                            "acceleration": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "speed": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "start_point": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            }
+                        },
+                        "mode": "linear"
+                    },
+                    "path2D": {
+                        "circular": {
+                            "circles": {
+                                "circular": {
+                                    "base": 3,
+                                    "baseRand": 0,
+                                    "radius": 3,
+                                    "radiusRand": 0,
+                                    "rate": 3,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "radius": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            }
+                        },
+                        "custom": "",
+                        "mode": "circular"
+                    },
+                    "path3D": {
+                        "custom": "",
+                        "mode": "spherical",
+                        "spherical": {
+                            "azimuth_angle": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "polar_angle": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            },
+                            "radius": {
+                                "circular": {
+                                    "base": 0,
+                                    "baseRand": 0,
+                                    "radius": 0,
+                                    "radiusRand": 0,
+                                    "rate": 0,
+                                    "rateRand": 0
+                                },
+                                "linear": {
+                                    "acceleration": 0,
+                                    "accelerationRand": 0,
+                                    "base": 0,
+                                    "baseRand": 0
+                                },
+                                "mode": "circular",
+                                "stable": {
+                                    "base": 0,
+                                    "rand": 0
+                                }
+                            }
+                        }
+                    },
+                    "x": false,
+                    "y": true,
+                    "z": true
+                }
+            ]
+        }
+    ]
+}

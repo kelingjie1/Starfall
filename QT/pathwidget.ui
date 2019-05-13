@@ -51,17 +51,17 @@
      </property>
      <widget class="QWidget" name="tab_3">
       <attribute name="title">
-       <string>S=vt+½at²</string>
+       <string>linear</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
        <property name="spacing">
         <number>0</number>
        </property>
        <item row="0" column="1">
-        <widget class="NumberEditWidget" name="widget" native="true"/>
+        <widget class="NumberEditWidget" name="path1DLinearStartPointValueWidget" native="true"/>
        </item>
        <item row="2" column="1">
-        <widget class="NumberEditWidget" name="widget_3" native="true"/>
+        <widget class="NumberEditWidget" name="path1DLinearAccelerationValueWidget" native="true"/>
        </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label">
@@ -78,12 +78,12 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="NumberEditWidget" name="widget_2" native="true"/>
+        <widget class="NumberEditWidget" name="path1DLinearSpeedValueWidget" native="true"/>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
-          <string>accelerated</string>
+          <string>acceleration</string>
          </property>
         </widget>
        </item>
@@ -91,11 +91,11 @@
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
-       <string>Custom</string>
+       <string>custom</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit"/>
+        <widget class="QPlainTextEdit" name="path1DCustomEdit"/>
        </item>
       </layout>
      </widget>
@@ -129,20 +129,20 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="NumberEditWidget" name="widget_4" native="true"/>
+        <widget class="NumberEditWidget" name="path2DCircularCirclesValueWidget" native="true"/>
        </item>
        <item row="1" column="1">
-        <widget class="NumberEditWidget" name="widget_5" native="true"/>
+        <widget class="NumberEditWidget" name="path2DCircularRadiusValueWidget" native="true"/>
        </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
-       <string>Custom</string>
+       <string>custom</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit_2"/>
+        <widget class="QPlainTextEdit" name="path2DCustomEdit"/>
        </item>
       </layout>
      </widget>
@@ -169,13 +169,13 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="NumberEditWidget" name="widget_6" native="true"/>
+        <widget class="NumberEditWidget" name="path3DSphericalRadiusValueWidget" native="true"/>
        </item>
        <item row="2" column="1">
-        <widget class="NumberEditWidget" name="widget_8" native="true"/>
+        <widget class="NumberEditWidget" name="path3DSphericalAzimuthAngleValueWidget" native="true"/>
        </item>
        <item row="1" column="1">
-        <widget class="NumberEditWidget" name="widget_7" native="true"/>
+        <widget class="NumberEditWidget" name="path3DSphericalPolarAngleValueWidget" native="true"/>
        </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_7">
@@ -195,11 +195,11 @@
      </widget>
      <widget class="QWidget" name="tab_6">
       <attribute name="title">
-       <string>Custom</string>
+       <string>custom</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <item>
-        <widget class="QPlainTextEdit" name="plainTextEdit_3"/>
+        <widget class="QPlainTextEdit" name="path3DCustomEdit"/>
        </item>
       </layout>
      </widget>

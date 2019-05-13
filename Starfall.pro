@@ -34,6 +34,7 @@ INCLUDEPATH += \
 
 SOURCES += \
         QT/numbereditwidget.cpp \
+        QT/particlemodel.cpp \
         QT/pathwidget.cpp \
         QT/sfrenderview.cpp \
         Source/Camera/SFCamera.cpp \
@@ -43,6 +44,7 @@ SOURCES += \
 
 HEADERS += \
         QT/numbereditwidget.h \
+        QT/particlemodel.h \
         QT/pathwidget.h \
         QT/sfrenderview.h \
         Source/Base/SFEmitter.h \

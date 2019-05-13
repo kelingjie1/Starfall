@@ -7,14 +7,26 @@ SFRenderView::SFRenderView(QWidget *parent) : QOpenGLWidget(parent)
 }
 
 
-void SFRenderView::initializeGL() {
+void SFRenderView::initializeGL()
+{
+    if (initializeFunc)
+    {
+        initializeFunc();
+    }
 
 }
-void SFRenderView::resizeGL(int w, int h) {
-    glViewport(0,0,w,h);
+void SFRenderView::resizeGL(int w, int h)
+{
+    if (resizeFunc)
+    {
+        resizeFunc(w,h);
+    }
 }
-void SFRenderView::paintGL() {
-    glClearColor(1,0,0,1);
-    glClear(GL_COLOR_BUFFER_BIT);
+void SFRenderView::paintGL()
+{
+    if (drawFunc)
+    {
+        drawFunc();
+    }
 }
 

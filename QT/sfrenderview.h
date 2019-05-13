@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QtWidgets/QOpenGLWidget>
+#include <functional>
 
 class SFRenderView : public QOpenGLWidget
 {
@@ -13,6 +14,9 @@ public:
     virtual void initializeGL();
     virtual void resizeGL(int w, int h);
     virtual void paintGL();
+    std::function<void()> initializeFunc;
+    std::function<void(int w,int h)> resizeFunc;
+    std::function<void()> drawFunc;
 
 signals:
 

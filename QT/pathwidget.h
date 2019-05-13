@@ -2,6 +2,7 @@
 #define PATHWIDGET_H
 
 #include <QGroupBox>
+#include "particlemodel.h"
 
 namespace Ui {
 class PathWidget;
@@ -18,6 +19,10 @@ public:
     bool xPath;
     bool yPath;
     bool zPath;
+
+    PathModel getModel();
+    void setModel(PathModel model);
+
 signals:
     void deletePath(PathWidget *pathWidget);
 
