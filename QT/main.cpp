@@ -1,9 +1,11 @@
 #include "mainwindow.h"
 #include <QApplication>
 #include <QDebug>
+#include <QTextCodec>
 
 int main(int argc, char *argv[])
 {
+    QApplication a(argc, argv);
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
     if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
@@ -16,8 +18,6 @@ int main(int argc, char *argv[])
         format.setVersion(3,0);
     }
     QSurfaceFormat::setDefaultFormat(format);
-//    QApplication::setAttribute(Qt::AA_UseOpenGLES);
-    QApplication a(argc, argv);
     MainWindow w;
     w.show();
     return a.exec();

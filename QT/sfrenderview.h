@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <QtWidgets/QOpenGLWidget>
 #include <functional>
-
+#include <QTimer>
 class SFRenderView : public QOpenGLWidget
 {
     Q_OBJECT
@@ -17,7 +17,7 @@ public:
     std::function<void()> initializeFunc;
     std::function<void(int w,int h)> resizeFunc;
     std::function<void()> drawFunc;
-
+    QTimer timer;
 signals:
 
 public slots:
