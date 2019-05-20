@@ -3,7 +3,9 @@
 
 SFRenderView::SFRenderView(QWidget *parent) : QOpenGLWidget(parent)
 {
-
+    connect(&timer,SIGNAL(timeout()),this,SLOT(repaint()));
+    timer.setInterval(1000/60);
+    timer.start();
 }
 
 

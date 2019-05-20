@@ -44,6 +44,7 @@ private:
     QString projectPath;
     QString previewPath;
     QString currentParticle;
+    std::shared_ptr<ObjectiveGL::GLContext> context;
     CameraModel getCameraModel();
     void setCameraModel(CameraModel model);
     ParticleParam getParticleParam();

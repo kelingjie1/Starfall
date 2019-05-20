@@ -29,13 +29,14 @@ MainWindow::MainWindow(QWidget *parent) :
         auto error2 = f->glGetError();
         ((int*)data)[0] = 10;
 
-
-        framebuffer = GLFrameBuffer::create(ui->openGLWidget->defaultFramebufferObject());
-        auto context = GLContext::create();
+        context = GLContext::create();
         context->setCurrent();
+        framebuffer = GLFrameBuffer::create(ui->openGLWidget->defaultFramebufferObject());
+
     };
     ui->openGLWidget->resizeFunc = [=](int w,int h) {
-
+        auto f = QOpenGLContext::currentContext()->extraFunctions();
+        f->glViewport(0,0,w,h);
     };
     ui->openGLWidget->drawFunc = [=](){
         if (this->system)
@@ -44,8 +45,9 @@ MainWindow::MainWindow(QWidget *parent) :
             this->system->render(framebuffer);
         }
         else if (previewPath.size()>0) {
-            system = SFParser::parsePath(previewPath.toStdString(),ui->openGLWidget->width(),ui->openGLWidget->height(),&camera,[=](string imagePath)->shared_ptr<GLTexture>{
-                QImage image(QString(imagePath.c_str()));
+            system = SFParser::parsePath(previewPath.toLocal8Bit().data(),ui->openGLWidget->width(),ui->openGLWidget->height(),&camera,[=](string imagePath)->shared_ptr<GLTexture>{
+                QImage image(QString::fromLocal8Bit(imagePath.c_str()));
+                image = image.convertToFormat(QImage::Format_RGBA8888);
                 auto texture = GLTexture::create();
                 texture->setImageData(image.bits(),image.width(),image.height());
                 return texture;
@@ -57,6 +59,9 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
+    ui->openGLWidget->makeCurrent();
+    system = nullptr;
+    ui->openGLWidget->doneCurrent();
     delete ui;
 }
 
@@ -120,7 +125,10 @@ void MainWindow::on_actionnew_triggered() {
 
 void MainWindow::on_actionopen_triggered()
 {
-    QString path = "/Users/lingtonke/Documents/git/Starfall/Example/iOS/Resource/星星龙卷.scene";//QFileDialog::getOpenFileName(nullptr,tr("open project"),"./","*.particleproj;*.scene");
+    //QString path = "/Users/lingtonke/Documents/git/Starfall/Example/iOS/Resource/星星龙卷.scene";
+    QString path = "D:/project/Starfall/Resource/scene/星星龙卷.scene";
+    //QString path = QFileDialog::getOpenFileName(nullptr,tr("open project"),"./","*.particleproj;*.scene");
+
     QFileInfo info(path);
     if (info.suffix()=="particleproj")
     {

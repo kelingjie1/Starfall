@@ -7,11 +7,11 @@
 //
 
 #include "SFCamera.h"
-#import <glm/glm.hpp>
-#import <glm/ext/matrix_transform.hpp>
-#import <glm/ext/matrix_clip_space.hpp>
-#import <glm/ext/scalar_constants.hpp>
-#import <glm/gtc/type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/ext/matrix_transform.hpp>
+#include <glm/ext/matrix_clip_space.hpp>
+#include <glm/ext/scalar_constants.hpp>
+#include <glm/gtc/type_ptr.hpp>
 using namespace Starfall;
 using namespace glm;
 

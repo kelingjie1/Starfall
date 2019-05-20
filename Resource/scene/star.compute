@@ -1,0 +1,14 @@
+float pi = 3.1415926;
+float y = rand.y*100.0;
+float r = y/1.2+rand.w*20.0;
+position = transformMatrix*vec4(sin(time/4.0+rand.x*2.0*pi)*r,rand.y*100.0,cos(time/4.0+rand.x*2.0*pi)*r,1.0);
+size = 500.0;
+color = vec4(1.0,1.0,1.0,1.0);
+textureIndex = 1.0;
+rotation = time+rand.z*2.0*pi;
+float duration = 5.0;
+float index = mod(time+rand.z*100.0,duration)/duration*100.0;
+float imgx = floor(mod(index,10.0));
+float imgy = floor(index/10.0);
+float imgSize = 100.0/1024.0;
+rect = vec4(imgx,imgy,imgSize,imgSize);

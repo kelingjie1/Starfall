@@ -1,0 +1,32 @@
+{
+	"config":
+	{
+		"maxParticleCount":100000
+	},
+	"particles":
+	[
+		"star.compute"
+	],
+	"textures":
+	[
+		"star.png"
+	],
+	"emitters":
+	[
+		{
+			"name":"SFFillEmitter"
+		}
+	],
+	"camera":
+	{
+		"position": 
+		{
+			"type":"orbit",
+			"rotationX":0,
+			"rotationY":-0.7,
+			"distance":200
+		}
+		
+	}
+}
+

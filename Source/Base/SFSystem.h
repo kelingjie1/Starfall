@@ -24,12 +24,12 @@ namespace Starfall {
     class SFConfig
     {
     public:
-        int maxParticleCount;
+        int maxParticleCount = 10000;
         float pointRenderScale = 4.0f;
         pair<int, int> screenSize;
-        bool usePointRenderer;
-        bool useDefferredRendering;
-        bool sort;
+        bool usePointRenderer = false;
+        bool useDefferredRendering = false;
+        bool sort = false;
 
     };
     
@@ -324,7 +324,7 @@ namespace Starfall {
                                                                    "type2","position2","color2","textureIndex2","uv2",
                                                                    "type3","position3","color3","textureIndex3","uv3",
                                                                });
-                    computeProgram->setUniform("screenSize", config.screenSize.first, config.screenSize.second);
+                    computeProgram->setUniform("screenSize", (float)config.screenSize.first, (float)config.screenSize.second);
                 }
                 
                 renderProgram->setTextures("textures", textures);

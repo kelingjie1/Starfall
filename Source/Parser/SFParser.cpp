@@ -23,7 +23,13 @@ shared_ptr<SFSystem> SFParser::parsePath(string path,int screenWidth,int screenH
     auto pos = path.find_last_of("/");
     auto dir = path.substr(0,pos);
     auto file = path.substr(pos+1,path.size()-pos-1);
-    ifstream f(path);
+    fstream f;
+    f.open(path,ios::in);
+    if (f.fail())
+    {
+        auto error = strerror(errno);
+        cout<<error<<endl;
+    }
     istreambuf_iterator<char> begin(f),end;
     string json(begin,end);
     Document d;
