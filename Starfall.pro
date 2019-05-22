@@ -66,7 +66,7 @@ FORMS += \
 
 CONFIG += mobility
 
-TRANSLATIONS += QT/zh_cn.ts
+TRANSLATIONS += QTRes/zh_cn.ts
 
 MOBILITY = 
 
@@ -75,3 +75,6 @@ MOBILITY =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    res.qrc

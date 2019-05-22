@@ -39,7 +39,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    bool xPath,yPath,zPath;
+    bool xPath=false,yPath=false,zPath=false;
     ParticleModel model;
     QString projectPath;
     QString previewPath;

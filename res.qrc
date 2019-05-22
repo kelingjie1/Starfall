@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/res">
+        <file alias="zh_cn.qm">QTRes/zh_cn.qm</file>
+    </qresource>
+</RCC>
