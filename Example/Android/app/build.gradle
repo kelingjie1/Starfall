@@ -11,8 +11,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         externalNativeBuild {
             cmake {
-                cppFlags ""
+                cppFlags "-DANDROID -std=c++1y"
+                arguments "-DANDROID_ABI=armeabi-v7a", "-DANDROID_STL=c++_shared", "-DPROJECT_ROOT=../../../../../.."
             }
+        }
+
+        ndk {
+            abiFilter 'armeabi-v7a'
         }
     }
     buildTypes {
@@ -26,13 +31,15 @@ android {
             path "src/main/cpp/CMakeLists.txt"
         }
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs "src/main/jniLibs"
+            jni.srcDirs = ["../../../Source"]
+        }
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:28.0.0'
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

@@ -11,9 +11,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-    // Example of a call to a native method
-    TextView tv = findViewById(R.id.sample_text);
-    tv.setText(stringFromJNI());
+        // Example of a call to a native method
+        TextView tv = findViewById(R.id.sample_text);
+        tv.setText(stringFromJNI());
     }
 
     /**
