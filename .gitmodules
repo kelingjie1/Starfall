@@ -4,3 +4,6 @@
 [submodule "Library/glm"]
 	path = Library/glm
 	url = https://github.com/g-truc/glm.git
+[submodule "Library/rapidjson"]
+	path = Library/rapidjson
+	url = https://github.com/Tencent/rapidjson.git

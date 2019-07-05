@@ -1,5 +1,5 @@
 //
-//  SFParticleNode.hpp
+//  SFNode.hpp
 //  Starfall
 //
 //  Created by lingtonke on 2019/3/20.
@@ -7,14 +7,14 @@
 //
 
 #pragma once
-#include "GLVertexArray.h"
+#include <ObjectiveGL/ObjectiveGL.h>
 #include <vector>
 
 namespace Starfall
 {
     using namespace std;
     using namespace ObjectiveGL;
-    class SFParticleObject {
+    class SFObject {
     public:
         GLfloat tmp;
         GLfloat time;
@@ -22,6 +22,14 @@ namespace Starfall
         GLfloat frameIndex;
         GLfloat rand[4];
         GLfloat frameSize[2];
+        void reset() {
+            for (int j=0; j<4; j++) {
+                rand[j] = std::rand()%1000/1000.0;
+            }
+            tmp = 1;
+            time = 0;
+            life = 999999;
+        }
         static vector<GLVertexArrayParams> getLayout() {
             vector<GLVertexArrayParams> params;
             params.push_back(GLVertexArrayParams(GL_FLOAT));
@@ -33,7 +41,7 @@ namespace Starfall
             return params;
         }
     };
-    class SFParticlePointNode
+    class SFPointNode
     {
     public:
         GLfloat type;
@@ -57,7 +65,7 @@ namespace Starfall
         }
     };
     
-    class SFParticleTriangleNode
+    class SFTriangleNode
     {
     public:
         GLfloat type;
@@ -77,7 +85,7 @@ namespace Starfall
         }
     };
     
-    class SFParticleDefferredVertex {
+    class SFDefferredVertex {
     public:
         GLfloat position[2];
         GLfloat uv[2];

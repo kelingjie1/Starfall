@@ -3,6 +3,7 @@ package com.starfall.starfallexample;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.opengl.GLES20;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,9 +12,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
         // Example of a call to a native method
         TextView tv = findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
+=======
+    // Example of a call to a native method
+    TextView tv = findViewById(R.id.sample_text);
+    tv.setText(stringFromJNI());
+
+>>>>>>> fdee346b068b8ed85874574e90368fcceb338837
     }
 
     /**
