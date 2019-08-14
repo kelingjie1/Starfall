@@ -59,6 +59,7 @@ using namespace Starfall;
     
     self.label = [[UILabel alloc] initWithFrame:CGRectMake(10, 100, 1000, 100)];
     self.label.numberOfLines = 0;
+    self.label.textColor = [UIColor blueColor];
     [self.view addSubview:self.label];
     date = [NSDate date];
     context = GLIOSContext::create();
@@ -123,7 +124,7 @@ using namespace Starfall;
         glGetIntegerv(GL_FRAMEBUFFER_BINDING, &fb);
         framebuffer = GLFrameBuffer::create(fb);
     }
-    framebuffer->clear(1, 0, 0, 1);
+    framebuffer->clear(0, 0, 0, 1);
     particleSystem->update(self.timeSinceLastDraw);
     particleSystem->render(framebuffer);
     auto monitor = particleSystem->getMonitor();
