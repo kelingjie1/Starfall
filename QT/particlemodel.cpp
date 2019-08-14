@@ -1,5 +1,6 @@
 #include "particlemodel.h"
-
+#include <QStringList>
+using namespace std;
 QJsonObject CameraPerspective::toJson()
 {
     QJsonObject obj;
@@ -54,6 +55,61 @@ void CameraModel::fromJson(QJsonObject obj)
     mode = obj["mode"].toString();
     perspective.fromJson(obj["perspective"].toObject());
     orthogonal.fromJson(obj["orthogonal"].toObject());
+}
+
+QJsonObject ParticleNormalEmitter::toJson()
+{
+    QJsonObject obj;
+    obj.insert("rate",rate);
+    return obj;
+}
+
+void ParticleNormalEmitter::fromJson(QJsonObject obj)
+{
+    rate = obj["rate"].toDouble();
+}
+
+QJsonObject ParticleCustomEmitter::toJson()
+{
+    QJsonObject obj;
+    QJsonArray array;
+    for (int i=0;i<(int)kv.size();i++) {
+        array.insert(i,kv[i].first+"|"+kv[i].second);
+    }
+    obj.insert("name",name);
+    obj.insert("kv",array);
+    return obj;
+}
+
+void ParticleCustomEmitter::fromJson(QJsonObject obj)
+{
+    name = obj["name"].toString();
+    QJsonArray array = obj["kv"].toArray();
+    kv.clear();
+    for (int i=0;i<(int)array.size();i++) {
+        auto str = array[i].toString();
+        auto list = str.split("|");
+        if (list.size() == 2)
+        {
+            kv.push_back(make_pair(list[0],list[1]));
+        }
+    }
+}
+
+QJsonObject ParticleEmitter::toJson()
+{
+    QJsonObject obj;
+    obj.insert("mode",mode);
+    obj.insert("normalEmitter",normalEmitter.toJson());
+    obj.insert("customEmitter",customEmitter.toJson());
+    return obj;
+}
+
+void ParticleEmitter::fromJson(QJsonObject obj)
+{
+    mode = obj["mode"].toString();
+    normalEmitter.fromJson(obj["normalEmitter"].toObject());
+    customEmitter.fromJson(obj["customEmitter"].toObject());
 }
 
 QJsonObject ParticleValueStable::toJson()
@@ -295,6 +351,7 @@ QJsonObject ParticleParam::toJson()
         array.insert(i,pathModel[i].toJson());
     }
     obj.insert("path",array);
+    obj.insert("emitter",emitter.toJson());
     obj.insert("attribute",attribute.toJson());
     obj.insert("display",display.toJson());
 
@@ -312,6 +369,7 @@ void ParticleParam::fromJson(QJsonObject obj)
         path.fromJson(array[i].toObject());
         pathModel.push_back(path);
     }
+    emitter.fromJson(obj["emitter"].toObject());
     attribute.fromJson(obj["attribute"].toObject());
     display.fromJson(obj["display"].toObject());
 }

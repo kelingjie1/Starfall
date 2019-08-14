@@ -48,6 +48,33 @@ public:
     virtual void fromJson(QJsonObject obj);
 };
 
+class ParticleNormalEmitter:public ParticleObject
+{
+public:
+    double rate = 10.0;
+    virtual QJsonObject toJson();
+    virtual void fromJson(QJsonObject obj);
+};
+
+class ParticleCustomEmitter:public ParticleObject
+{
+public:
+    QString name = "unname";
+    std::vector<std::pair<QString,QString>> kv;
+    virtual QJsonObject toJson();
+    virtual void fromJson(QJsonObject obj);
+};
+
+class ParticleEmitter:public ParticleObject
+{
+public:
+    QString mode = "normal";
+    ParticleNormalEmitter normalEmitter;
+    ParticleCustomEmitter customEmitter;
+    virtual QJsonObject toJson();
+    virtual void fromJson(QJsonObject obj);
+};
+
 class ParticleValueStable:public ParticleObject
 {
 public:
@@ -194,6 +221,7 @@ class ParticleParam:public ParticleObject
 public:
     QString name;
     std::vector<PathModel> pathModel;
+    ParticleEmitter emitter;
     ParticleAttribute attribute;
     ParticleDisplay display;
     virtual QJsonObject toJson();

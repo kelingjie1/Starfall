@@ -2,10 +2,13 @@
 #include <QApplication>
 #include <QDebug>
 #include <QTextCodec>
-
+#include <QTranslator>
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
+    QTranslator tran;
+    tran.load(":/res/zh_cn.qm");
+    a.installTranslator(&tran);
     QSurfaceFormat format;
     format.setDepthBufferSize(24);
     if (QOpenGLContext::openGLModuleType() == QOpenGLContext::LibGL)
